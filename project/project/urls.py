@@ -15,9 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from data_model import views
+from . import views as root_view
+from data_model import views as app_view
+
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('rest/Cars/', views.post_get),
-    path('rest/Car/<int:plate_id>/',views.get_put_delete),
+    path('', root_view.home, name="home"),
+    path('admin/', admin.site.urls, name="admin"),
+    path('customers/', app_view.customers, name="customers"),
+    path('cars/', app_view.cars, name="cars"),
+    path('reservations/', app_view.reservations, name="reservations"),
+    path('rest/Cars/', app_view.post_get),
+    path('rest/Car/<int:plate_id>/', app_view.get_put_delete),
 ]

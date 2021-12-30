@@ -1,10 +1,9 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from .models import Car ,Customer ,Reservation
+from .models import Car, Customer, Reservation
 from rest_framework.decorators import api_view
-from .serializers import CarSerializers ,CustomerSerializers ,ReservationSerializers
+from .serializers import CarSerializers, CustomerSerializers, ReservationSerializers
 from rest_framework import status, filters
-
 from data_model import serializers
 # List = GET
 # Create = POST
@@ -12,7 +11,7 @@ from data_model import serializers
 # Update = PUT
 # Delete (Destroy) = DELETE 
 
-@api_view(['GET' ,'POST'])
+@api_view(['GET', 'POST'])
 def post_get(request):
 
     # 1.GET
@@ -58,3 +57,18 @@ def get_put_delete(request, plate_id):
     except Car.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+
+
+def customers(request):
+    customers = Customer.objects.all()
+    return render(request, "customers.html", {"customers": customers})
+
+
+def cars(request):
+    cars = Car.objects.all()
+    return render(request, "cars.html", {"cars": cars})
+
+
+def reservations(request):
+    reservations = Reservation.objects.all()
+    return render(request, "reservations.html", {"reservations": reservations})
