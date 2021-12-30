@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Car(models.Model):
     plate_id = models.PositiveIntegerField(primary_key=True)
     model = models.CharField(max_length=32)
