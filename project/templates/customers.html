@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <a href="#">1</a>
+            </td>
+            <td>Name 1</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">2</a>
+            </td>
+            <td>Name 2</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">3</a>
+            </td>
+            <td>Name 3</td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#">4</a>
+            </td>
+            <td>Name 4</td>
+        </tr>
+        {% for customer in customers %}
+            <tr>
+                <td>
+                    <a href="{% url 'customers:detail' customer.id %}">{{ customer.id }}</a>
+                </td>
+                <td>{{ customer.name }}</td>
+            </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+{% endblock %}
