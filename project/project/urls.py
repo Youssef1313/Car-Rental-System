@@ -23,5 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),
     path('customers/', app_view.customers, name="customers"),
     path('cars/', app_view.cars, name="cars"),
-    path('cars/', app_view.reservations, name="reservations"),
+    path('reservations/', app_view.reservations, name="reservations"),
 ]
