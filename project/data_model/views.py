@@ -1,13 +1,17 @@
 from django.shortcuts import render
+from .models import Customer, Car, Reservation
 
 
 def customers(request):
-    return render(request, "customers.html")
+    customers = Customer.objects.all()
+    return render(request, "customers.html", {"customers": customers})
 
 
 def cars(request):
-    return render(request, "cars.html")
+    cars = Car.objects.all()
+    return render(request, "cars.html", {"cars": cars})
 
 
 def reservations(request):
-    return render(request, "reservations.html")
+    reservations = Reservation.objects.all()
+    return render(request, "reservations.html", {"reservations": reservations})
