@@ -18,5 +18,6 @@ from django.urls import path
 from data_model import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('rest/fn_list/', views.fn_list)
+    path('rest/Cars/', views.post_get),
+    path('rest/Car/<int:plate_id>/',views.get_put_delete),
 ]
