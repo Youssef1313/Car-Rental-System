@@ -25,6 +25,6 @@ urlpatterns = [
     path('customers/', app_view.customers, name="customers"),
     path('cars/', app_view.cars, name="cars"),
     path('reservations/', app_view.reservations, name="reservations"),
-    path('rest/Cars/', app_view.post_get),
-    path('rest/Car/<int:plate_id>/', app_view.get_put_delete),
+    path('api/cars/', app_view.post_get),
+    path('api/car/<int:plate_id>/', app_view.get_put_delete),
 ]
