@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls.conf import include
 from . import views as root_view
 from company import views as app_view
 
@@ -27,4 +28,6 @@ urlpatterns = [
     path('reservations/', app_view.reservations, name="reservations"),
     path('api/cars/', app_view.post_get),
     path('api/car/<int:plate_id>/', app_view.get_put_delete),
+    path('login/', app_view.login, name="login"),
+    path('', include('django.contrib.auth.urls')),
 ]

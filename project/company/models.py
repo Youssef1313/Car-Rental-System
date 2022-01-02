@@ -15,8 +15,6 @@ class Car(models.Model):
 class Customer(models.Model):
     customer_id = models.PositiveIntegerField(primary_key=True)
     name = models.TextField()
-    email = models.EmailField()
-    password = models.TextField()
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
 
 class Reservation(models.Model):

@@ -1,10 +1,13 @@
-from django.shortcuts import render
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.shortcuts import redirect, render
 from rest_framework.response import Response
 from .models import Car, Customer, Reservation
 from rest_framework.decorators import api_view
 from .serializers import CarSerializers, CustomerSerializers, ReservationSerializers
 from rest_framework import status, filters
 from company import serializers
+
 # List = GET
 # Create = POST
 # pk query = GET
@@ -72,3 +75,18 @@ def cars(request):
 def reservations(request):
     reservations = Reservation.objects.all()
     return render(request, "reservations.html", {"reservations": reservations})
+
+def login(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.success(request, 'Invalid username or password.')
+            return redirect('login')
+
+    elif request.method == "GET":
+        return render(request, "login.html") # , {}
