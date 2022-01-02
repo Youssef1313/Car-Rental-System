@@ -4,7 +4,7 @@ from .models import Car, Customer, Reservation
 from rest_framework.decorators import api_view
 from .serializers import CarSerializers, CustomerSerializers, ReservationSerializers
 from rest_framework import status, filters
-from data_model import serializers
+from company import serializers
 # List = GET
 # Create = POST
 # pk query = GET
