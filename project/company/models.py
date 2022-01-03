@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
 
 class CarStatus(models.TextChoices):
     ACTIVE = 'A', 'Active'
@@ -12,10 +13,8 @@ class Car(models.Model):
 
     status = models.CharField(max_length=8, choices=CarStatus.choices)
 
-class Customer(models.Model):
-    customer_id = models.PositiveIntegerField(primary_key=True)
-    name = models.TextField()
-    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
+class Customer(AbstractUser):
+    pass
 
 class Reservation(models.Model):
     reservation_id = models.PositiveIntegerField(primary_key=True)
