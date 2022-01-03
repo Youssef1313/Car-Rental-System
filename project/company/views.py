@@ -76,7 +76,7 @@ def reservations(request):
     reservations = Reservation.objects.all()
     return render(request, "reservations.html", {"reservations": reservations})
 
-def login(request):
+def login_customer(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']

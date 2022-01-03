@@ -28,6 +28,6 @@ urlpatterns = [
     path('reservations/', app_view.reservations, name="reservations"),
     path('api/cars/', app_view.post_get),
     path('api/car/<int:plate_id>/', app_view.get_put_delete),
-    path('login/', app_view.login, name="login"),
+    path('login/', app_view.login_customer, name="login"),
     path('', include('django.contrib.auth.urls')),
 ]
