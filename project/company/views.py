@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from rest_framework.response import Response
@@ -90,3 +91,6 @@ def login_customer(request):
 
     elif request.method == "GET":
         return render(request, "login.html") # , {}
+
+def signup_customer(request):
+    return render(request, "signup.html") # , {}
