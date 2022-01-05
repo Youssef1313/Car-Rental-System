@@ -31,5 +31,5 @@ urlpatterns = [
     path('login/', app_view.login_customer, name="login"),
     path('signup/', app_view.signup_customer, name="signup"),
     path('logout/', app_view.logout_customer, name="logout"),
-    
+    path('reserve/', app_view.reserve_car, name="reserve_car"),
 ]

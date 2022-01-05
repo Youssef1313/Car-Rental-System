@@ -1,5 +1,8 @@
+from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.db import transaction
+from django.http.request import QueryDict
 from django.shortcuts import redirect, render
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -77,7 +80,7 @@ def reservations(request):
     return render(request, "reservations.html", {"reservations": reservations, "title": "Reservations"})
 
 def login_customer(request):
-    if (request.user.is_authenticated):
+    if request.user.is_authenticated:
         return redirect('home')
 
     if request.method == "POST":
@@ -95,12 +98,12 @@ def login_customer(request):
         return render(request, "login.html", {"title": "Login"})
 
 def signup_customer(request):
-    if (request.user.is_authenticated):
+    if request.user.is_authenticated:
         return redirect('home')
 
     if request.method == "POST":
         form = SignupForm(request.POST)
-        if (form.is_valid()):
+        if form.is_valid():
             form.save()
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
@@ -115,3 +118,19 @@ def signup_customer(request):
 def logout_customer(request):
     logout(request)
     return redirect('home')
+
+def reserve_car(request):
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return redirect('login')
+        plate_id = request.POST.get('plate_id')
+        with transaction.atomic():
+            car = Car.objects.select_for_update().get(pk=plate_id)
+            if car.is_reserved:
+                messages.info(request, 'Sorry, someone else has already reserved this car.')
+                return redirect('cars')
+            reservation = Reservation(rental_date=datetime.now(), customer=request.user, car=car)
+            car.is_reserved = True
+            car.save()
+            reservation.save()
+            return redirect('reservations')
