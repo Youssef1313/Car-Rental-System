@@ -1,14 +1,14 @@
+from collections import namedtuple
 from datetime import datetime
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
 from django.db import transaction
+from django.db.models import Q
 from django.http.request import QueryDict
 from django.shortcuts import redirect, render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .forms import SignupForm
-from .models import Car, Customer, Reservation
+from .models import Car, Customer, Office, Reservation
 from .serializers import CarSerializers, CustomerSerializers, ReservationSerializers
 
 # List = GET
@@ -71,9 +71,19 @@ def customers(request):
 
 
 def cars(request):
-    cars = Car.objects.all()
+    if 'value' in request.GET:
+        val = request.GET['value']
+        mult_search = Q(Q(plate_id__icontains=val)|
+                         Q(model__icontains=val)|
+                         Q(color__icontains=val)|
+                         Q(year__icontains=val)|
+                         Q(belong_office__office_name__icontains=val)|
+                         Q(belong_office__office_location__icontains=val))
+        
+        cars = Car.objects.filter(mult_search)
+    else:
+        cars = Car.objects.all()
     return render(request, "cars_customer.html", {"cars": cars, "title": "Cars"})
-
 
 def reservations(request):
     reservations = Reservation.objects.all()
