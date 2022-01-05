@@ -1,12 +1,12 @@
-from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
-from rest_framework.response import Response
-from .models import Car, Customer, Reservation
+from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .forms import SignupForm
+from .models import Car, Customer, Reservation
 from .serializers import CarSerializers, CustomerSerializers, ReservationSerializers
-from rest_framework import status, filters
-from company import serializers
 
 # List = GET
 # Create = POST
@@ -77,6 +77,9 @@ def reservations(request):
     return render(request, "reservations.html", {"reservations": reservations})
 
 def login_customer(request):
+    if (request.user.is_authenticated):
+        return redirect('home')
+
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -90,3 +93,25 @@ def login_customer(request):
 
     elif request.method == "GET":
         return render(request, "login.html") # , {}
+
+def signup_customer(request):
+    if (request.user.is_authenticated):
+        return redirect('home')
+
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if (form.is_valid()):
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('home')
+    else:
+        form = SignupForm()
+
+    return render(request, "signup.html", {'form': form})
+
+def logout_customer(request):
+    logout(request)
+    return redirect('home')
