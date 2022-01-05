@@ -34,9 +34,9 @@ class Reservation(models.Model):
     rental_date = models.DateTimeField()
     pickup_date = models.DateTimeField(null=True)
     return_date = models.DateTimeField(null=True)
-    customer = models.ForeignKey(Customer ,related_name='reservation', on_delete=models.RESTRICT)
-    car = models.ForeignKey(Car ,related_name='reservation', on_delete=models.SET_NULL, null=True)
-    payment = models.ForeignKey(Payment ,related_name='reservation', on_delete=models.RESTRICT, null=True)
+    customer = models.ForeignKey(Customer, related_name='reservation', on_delete=models.RESTRICT)
+    car = models.ForeignKey(Car, related_name='reservation', on_delete=models.SET_NULL, null=True)
+    payment = models.ForeignKey(Payment, related_name='reservation', on_delete=models.RESTRICT, null=True)
 
 
 
