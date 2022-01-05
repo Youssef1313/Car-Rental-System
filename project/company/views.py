@@ -84,12 +84,9 @@ def cars(request):
         cars = Car.objects.all()
     return render(request, "cars_customer.html", {"cars": cars}, "title": "Cars")
 
-def get_specific_car(request, attr, val):
-    pass
-
 def reservations(request):
     reservations = Reservation.objects.all()
-    return render(request, "reservations.html", {"reservations": reservations}, "title": "Reservations")
+    return render(request, "reservations.html", {"reservations": reservations, "title": "Reservations"})
 
 def login_customer(request):
     if (request.user.is_authenticated):
