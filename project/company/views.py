@@ -74,7 +74,7 @@ def cars(request):
 
 def reservations(request):
     reservations = Reservation.objects.all()
-    return render(request, "reservations.html", {"reservations": reservations})
+    return render(request, "reservations.html", {"reservations": reservations, "title": "Reservations"})
 
 def login_customer(request):
     if (request.user.is_authenticated):
@@ -92,7 +92,7 @@ def login_customer(request):
             return redirect('login')
 
     elif request.method == "GET":
-        return render(request, "login.html") # , {}
+        return render(request, "login.html", {"title": "Login"})
 
 def signup_customer(request):
     if (request.user.is_authenticated):
@@ -110,7 +110,7 @@ def signup_customer(request):
     else:
         form = SignupForm()
 
-    return render(request, "signup.html", {'form': form})
+    return render(request, "signup.html", {'form': form, 'title': 'Sign up'})
 
 def logout_customer(request):
     logout(request)
