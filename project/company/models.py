@@ -1,17 +1,16 @@
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 
-class CarStatus(models.TextChoices):
-    ACTIVE = 'A', 'Active'
-    OUT_OF_SERVICE = 'OOS', 'Out of service'
+class CarStatus(models.Model):
+    id = models.SmallIntegerField(primary_key=True)
+    name = models.CharField(max_length=64)
+
 
 class Car(models.Model):
     plate_id = models.PositiveIntegerField(primary_key=True)
     model = models.CharField(max_length=255)
     year = models.PositiveSmallIntegerField()
-
-    status = models.CharField(max_length=8, choices=CarStatus.choices)
+    status = models.ForeignKey(CarStatus, related_name='status', on_delete=models.RESTRICT)
 
 class Customer(AbstractUser):
     pass
@@ -21,3 +20,8 @@ class Reservation(models.Model):
     date = models.DateTimeField()
     customer = models.ForeignKey(Customer ,related_name='reservation', on_delete=models.CASCADE)
     car = models.ForeignKey(Car ,related_name='reservation', on_delete=models.CASCADE)
+
+class Payment(models.Model):
+    payment_id = models.AutoField(primary_key=True)
+    payment_date = models.DateTimeField()
+    payment_amount = models.CharField(max_length=255)
