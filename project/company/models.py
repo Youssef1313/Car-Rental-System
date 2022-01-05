@@ -25,3 +25,9 @@ class Payment(models.Model):
     payment_id = models.AutoField(primary_key=True)
     payment_date = models.DateTimeField()
     payment_amount = models.CharField(max_length=255)
+
+class Office(models.Model):
+    office_id = models.AutoField(primary_key=True)
+    office_name = models.CharField(max_length=255)
+    office_location = models.CharField(max_length=255)
+
