@@ -115,4 +115,3 @@ def signup_customer(request):
 def logout_customer(request):
     logout(request)
     return redirect('home')
-
