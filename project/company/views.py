@@ -1,8 +1,8 @@
-from collections import namedtuple
 from datetime import datetime
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.db import transaction
 from django.db.models import Q
-from django.http.request import QueryDict
 from django.shortcuts import redirect, render
 from rest_framework import status
 from rest_framework.decorators import api_view
