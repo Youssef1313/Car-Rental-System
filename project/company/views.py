@@ -69,7 +69,7 @@ def customers(request):
 
 def cars(request):
     cars = Car.objects.all()
-    return render(request, "cars_customer.html", {"cars": cars})
+    return render(request, "cars_customer.html", {"cars": cars, "title": "Cars"})
 
 
 def reservations(request):
