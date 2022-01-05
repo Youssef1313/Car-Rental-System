@@ -1,13 +1,12 @@
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
-from rest_framework.response import Response
-from .models import Car, Customer, Reservation
+from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .forms import SignupForm
+from .models import Car, Customer, Reservation
 from .serializers import CarSerializers, CustomerSerializers, ReservationSerializers
-from rest_framework import status, filters
-from company import serializers
 
 # List = GET
 # Create = POST
@@ -93,4 +92,16 @@ def login_customer(request):
         return render(request, "login.html") # , {}
 
 def signup_customer(request):
-    return render(request, "signup.html") # , {}
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if (form.is_valid()):
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            redirect('home')
+    else:
+        form = SignupForm()
+
+    return render(request, "signup.html", {'form': form}) # , {}

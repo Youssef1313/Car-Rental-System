@@ -1,15 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
 <form method="POST">
+
+    {% if form.errors %}
+      {% for error in form.non_field_errors %}
+          <div class="alert alert-danger" role="alsert">
+              {{ error|escape|linebreaks }}
+          </div>
+      {% endfor %}
+    {% endif %}
+
     {% csrf_token %}
     <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
+      <label for="username" class="form-label">Username *</label>
+      <div class="text-danger">{{ form.errors.username.as_text|escape|linebreaks }}</div>
       <input type="text" class="form-control" id="username" name="username">
     </div>
     <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password">
+      <label for="first_name" class="form-label">First name</label>
+      <div class="text-danger">{{ form.first_name.errors.as_text|escape|linebreaks }}</div>
+      <input type="text" class="form-control" id="first_name" name="first_name">
     </div>
-    <button type="submit" class="btn btn-primary">Login</button>
+    <div class="mb-3">
+      <label for="last_name" class="form-label">Last name</label>
+      <div class="text-danger">{{ form.last_name.errors.as_text|escape|linebreaks }}</div>
+      <input type="text" class="form-control" id="last_name" name="last_name">
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>
+      <div class="text-danger">{{ form.email.errors.as_text|escape|linebreaks }}</div>
+      <input type="email" class="form-control" id="email" name="email">
+    </div>
+    <div class="mb-3">
+      <label for="password1" class="form-label">Password</label>
+      <div class="text-danger">{{ form.password1.errors.as_text|escape|linebreaks }}</div>
+      <input type="password" class="form-control" id="password1" name="password1" autocomplete="new-password" required>
+    </div>
+    <div class="mb-3">
+      <label for="password2" class="form-label">Password confirmation</label>
+      <div class="text-danger">{{ form.password2.errors.as_text|escape|linebreaks }}</div>
+      <input type="password" class="form-control" id="password2" name="password2" autocomplete="new-password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Sign up</button>
   </form>
 {% endblock %}
