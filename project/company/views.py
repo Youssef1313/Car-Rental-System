@@ -82,7 +82,7 @@ def cars(request):
         cars = Car.objects.filter(mult_search)
     else:
         cars = Car.objects.all()
-    return render(request, "cars_customer.html", {"cars": cars}, "title": "Cars")
+    return render(request, "cars_customer.html", {"cars": cars, "title": "Cars"})
 
 def reservations(request):
     reservations = Reservation.objects.all()
