@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -111,3 +111,7 @@ def signup_customer(request):
         form = SignupForm()
 
     return render(request, "signup.html", {'form': form})
+
+def logout_customer(request):
+    logout(request)
+    return redirect('home')
