@@ -69,7 +69,7 @@ def customers(request):
 
 def cars(request):
     cars = Car.objects.all()
-    return render(request, "cars.html", {"cars": cars})
+    return render(request, "cars_customer.html", {"cars": cars})
 
 
 def reservations(request):
@@ -115,3 +115,4 @@ def signup_customer(request):
 def logout_customer(request):
     logout(request)
     return redirect('home')
+

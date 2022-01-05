@@ -1,0 +1,77 @@
+{%  extends 'login.html' %}
+
+{% block content %}
+
+		<br>
+
+		<div class="row">
+			<div class="col-md">
+				<div class="card card-body">
+					<h5 style="color: black;">Cars</h5>
+
+          <form class="form-inline md-form mr-auto mb-4">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-primary blue-gradient  btn-rounded btn-sm my-2" type="submit">Search</button>
+
+            <div>       
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                <label class="form-check-label" for="inlineRadio1" style="color:rgb(54, 2, 68)">Plate Id</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                <label class="form-check-label" for="inlineRadio2" style="color:rgb(54, 2, 68)">Model</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                <label class="form-check-label" for="inlineRadio3" style="color:rgb(54, 2, 68)">Color</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                <label class="form-check-label" for="inlineRadio1" style="color:rgb(54, 2, 68)">Year</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                <label class="form-check-label" for="inlineRadio2" style="color:rgb(54, 2, 68)">Office Name</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                <label class="form-check-label" for="inlineRadio3" style="color:rgb(54, 2, 68)">Office Location</label>
+              </div>
+            </div>
+
+          </form>
+
+				</div>
+				<div class="card card-body">
+					<table class="table">
+						<tr>
+							<th>Plate</th>
+							<th>Model</th>
+							<th>Color</th>
+							<th>Year</th>
+							<th>Office Name</th>
+							<th>Office Location</th>
+							<th></th>
+
+						</tr>
+
+						{% for i in cars %}
+							<tr>
+								<td>{{i.plate_id}}</td>
+								<td>{{i.model}}</td>
+								<td>{{i.color}}</td>
+								<td>{{i.year}}</td>
+								<td>{{i.belong_office.office_name}}</td>
+								<td>{{i.belong_office.office_location}}</td>
+
+								<td><button type="submit" class="btn btn-primary">Register</button></td>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+			
+		</div>
+
+{% endblock content %}

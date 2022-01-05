@@ -26,9 +26,10 @@ urlpatterns = [
     path('customers/', app_view.customers, name="customers"),
     path('cars/', app_view.cars, name="cars"),
     path('reservations/', app_view.reservations, name="reservations"),
-    path('api/cars/', app_view.post_get),
-    path('api/car/<int:plate_id>/', app_view.get_put_delete),
+    # path('api/cars/', app_view.post_get),
+    # path('api/car/<int:plate_id>/', app_view.get_put_delete),
     path('login/', app_view.login_customer, name="login"),
     path('signup/', app_view.signup_customer, name="signup"),
     path('logout/', app_view.logout_customer, name="logout"),
+    
 ]
