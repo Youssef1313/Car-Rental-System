@@ -67,7 +67,7 @@ from .serializers import CarSerializers, CustomerSerializers, ReservationSeriali
 
 def customers(request):
     customers = Customer.objects.all()
-    return render(request, "customers.html", {"customers": customers})
+    return render(request, "customers.html", {"customers": customers, "title": "Customers"})
 
 
 
