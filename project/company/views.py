@@ -141,6 +141,7 @@ def cars(request):
     return render(request, "cars_customer.html", {"cars": cars, "title": "Cars"})
 
 def reservations(request):
+    # TODO: User-reservations only if not admin!!!
     reservations = Reservation.objects.all()
     return render(request, "reservations.html", {"reservations": reservations, "title": "Reservations"})
 
