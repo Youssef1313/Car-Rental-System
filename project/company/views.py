@@ -15,7 +15,7 @@ from .serializers import CarSerializers, CustomerSerializers, ReservationSeriali
 # Create = POST
 # pk query = GET
 # Update = PUT
-# Delete (Destroy) = DELETE 
+# Delete (Destroy) = DELETE
 
 @api_view(['GET', 'POST'])
 def post_get(request):
@@ -64,7 +64,6 @@ def get_put_delete(request, plate_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-
 def customers(request):
     customers = Customer.objects.all()
     return render(request, "customers.html", {"customers": customers})
@@ -85,9 +84,30 @@ def cars(request):
         cars = Car.objects.all()
     return render(request, "cars_customer.html", {"cars": cars, "title": "Cars"})
 
+
 def reservations(request):
     reservations = Reservation.objects.all()
-    return render(request, "reservations.html", {"reservations": reservations, "title": "Reservations"})
+    return render(
+                   request,
+                   "reservations.html",
+                   {
+                    "reservations": reservations,
+                    "title": "Reservations"
+                   }
+                 )
+
+
+def customer_reservations(request):
+    reservations = Reservation.objects.filter(customer=request.GET['customer'])
+    return render(
+                   request,
+                   "customer_reservations.html",
+                   {
+                    "reservations": reservations,
+                    "title": "Reservations"
+                   }
+                 )
+
 
 def login_customer(request):
     if request.user.is_authenticated:
@@ -106,6 +126,7 @@ def login_customer(request):
 
     elif request.method == "GET":
         return render(request, "login.html", {"title": "Login"})
+
 
 def signup_customer(request):
     if request.user.is_authenticated:
