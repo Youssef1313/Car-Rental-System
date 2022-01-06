@@ -76,7 +76,7 @@ def admin_customer(request):
     if 'customer_search' in request.GET:
         val = request.GET['customer_search']
         
-        ## Change this search attr. with the customer attr
+        ##TODO Change this search attr. with the customer attr
         
         # mult_search = Q(Q(plate_id__icontains=val)|
         #                     Q(model__icontains=val)|
@@ -111,7 +111,7 @@ def reservation_admin(request):
     if 'reservation_search' in request.GET:
         val = request.GET['reservation_search']
 
-        ## Add Customer Id or Customer Name
+        ## TODO Add Customer Id or Customer Name
         mult_search = Q(Q(id__icontains=val)|
                          Q(rental_date__icontains=val)|
                          Q(pickup_date__icontains=val)|
