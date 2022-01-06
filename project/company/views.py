@@ -17,57 +17,112 @@ from .serializers import CarSerializers, CustomerSerializers, ReservationSeriali
 # Update = PUT
 # Delete (Destroy) = DELETE 
 
-@api_view(['GET', 'POST'])
-def post_get(request):
+# @api_view(['GET', 'POST'])
+# def post_get(request):
 
-    # 1.GET
-    if request.method == 'GET':
-        cars = Car.objects.all()
-        # print(cars)
-        # print('ok')
-        serializer = CarSerializers(cars ,many=True)
-        return Response(serializer.data)
+#     # 1.GET
+#     if request.method == 'GET':
+#         cars = Car.objects.all()
+#         # print(cars)
+#         # print('ok')
+#         serializer = CarSerializers(cars ,many=True)
+#         return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = CarSerializers(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            Response(serializer.data ,status=status.HTTP_400_BAD_REQUEST)
+#     elif request.method == 'POST':
+#         serializer = CarSerializers(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         else:
+#             Response(serializer.data ,status=status.HTTP_400_BAD_REQUEST)
 
 
 
-@api_view(['GET','PUT','DELETE'])
-def get_put_delete(request, plate_id):
-    try:
-        car = Car.objects.get(pk=plate_id)
-        # Get_Car
-        if request.method == 'GET':
-            serializer = CarSerializers(car)
-            return Response(serializer.data)
+# @api_view(['GET','PUT','DELETE'])
+# def get_put_delete(request, plate_id):
+#     try:
+#         car = Car.objects.get(pk=plate_id)
+#         # Get_Car
+#         if request.method == 'GET':
+#             serializer = CarSerializers(car)
+#             return Response(serializer.data)
 
-        # Put_Car -> Update
-        if request.method == 'PUT':
-            serializer = CarSerializers(car, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                Response(serializer.errors ,status=status.HTTP_400_BAD_REQUEST)
+#         # Put_Car -> Update
+#         if request.method == 'PUT':
+#             serializer = CarSerializers(car, data=request.data)
+#             if serializer.is_valid():
+#                 serializer.save()
+#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+#             else:
+#                 Response(serializer.errors ,status=status.HTTP_400_BAD_REQUEST)
 
-        # Delete_Car
-        if request.method == 'DELETE':
-            car.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-    except Car.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+#         # Delete_Car
+#         if request.method == 'DELETE':
+#             car.delete()
+#             return Response(status=status.HTTP_204_NO_CONTENT)
+#     except Car.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 
 def customers(request):
     customers = Customer.objects.all()
-    return render(request, "customers.html", {"customers": customers})
+    return render(request, "customers.html", {"customers": customers, "title": "Customers"})
+
+
+
+# Admin Search For Customer 
+def admin_customer(request):
+    if 'customer_search' in request.GET:
+        val = request.GET['customer_search']
+        
+        ##TODO Change this search attr. with the customer attr
+        
+        # mult_search = Q(Q(plate_id__icontains=val)|
+        #                     Q(model__icontains=val)|
+        #                     Q(color__icontains=val)|
+        #                     Q(year__icontains=val)|
+        #                     Q(belong_office__office_name__icontains=val)|
+        #                     Q(belong_office__office_location__icontains=val))
+        
+        # customers = Customer.objects.filter(mult_search)
+    else:
+        customers = Customer.objects.all()
+    return render(request, "customer_admin.html", {"customer": customers, "title": "Customers"})
+
+def cars_admin(request):
+    if 'car_search' in request.GET:
+        val = request.GET['car_search']
+        mult_search = Q(Q(plate_id__icontains=val)|
+                         Q(model__icontains=val)|
+                         Q(color__icontains=val)|
+                         Q(year__icontains=val)|
+                         Q(belong_office__office_name__icontains=val)|
+                         Q(belong_office__office_location__icontains=val))
+        
+        cars = Car.objects.filter(mult_search)
+    else:
+        cars = Car.objects.all()
+    return render(request, "cars_admin.html", {"cars": cars, "title": "Cars"})
+
+
+
+def reservation_admin(request):
+    if 'reservation_search' in request.GET:
+        val = request.GET['reservation_search']
+
+        ## TODO Add Customer Id or Customer Name
+        mult_search = Q(Q(id__icontains=val)|
+                         Q(rental_date__icontains=val)|
+                         Q(pickup_date__icontains=val)|
+                         Q(return_date__icontains=val)|
+                         Q(car__plate_id__icontains=val)|
+                         Q(payment__id__icontains=val))
+        
+        reservations = Reservation.objects.filter(mult_search)
+    else:
+        reservations = Reservation.objects.all()
+    return render(request, "reservation_admin.html", {"reservations": reservations, "title": "Reservations"})
 
 
 def cars(request):
