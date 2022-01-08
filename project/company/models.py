@@ -5,6 +5,10 @@ class CarStatus(models.Model):
     id = models.SmallIntegerField(primary_key=True)
     name = models.CharField(max_length=64)
 
+    def __str__(self):
+        return self.name
+    
+
 
 class Payment(models.Model):
     id = models.AutoField(primary_key=True)
@@ -17,6 +21,10 @@ class Office(models.Model):
     office_name = models.CharField(max_length=256)
     office_location = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.office_name
+    
+
 class Car(models.Model):
     plate_id = models.PositiveIntegerField(primary_key=True)
     model = models.CharField(max_length=256)
@@ -24,7 +32,11 @@ class Car(models.Model):
     year = models.PositiveSmallIntegerField()
     status = models.ForeignKey(CarStatus, related_name='status', on_delete=models.RESTRICT)
     belong_office = models.ForeignKey(Office, related_name='office', on_delete=models.CASCADE)
-    is_reserved = models.BooleanField()
+    is_reserved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.plate_id} {self.belong_office.office_name} {self.status.name}'
+    
 
 class Customer(AbstractUser):
     pass
@@ -38,6 +50,9 @@ class Reservation(models.Model):
     car = models.ForeignKey(Car, related_name='reservation', on_delete=models.SET_NULL, null=True)
     payment = models.ForeignKey(Payment, related_name='reservation', on_delete=models.RESTRICT, null=True)
 
+    def __str__(self):
+        return self.id
+    
 
 
 
