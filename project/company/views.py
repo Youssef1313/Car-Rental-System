@@ -217,24 +217,24 @@ def edit_car(request, plate_id):
         car.save()
         return redirect(cars)
 
-def add_car(requset):
-    if requset.method == "GET":
-        return render(requset,"add_car.html",{'title' : 'Add Car'})
+def add_car(request):
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        return HttpResponseForbidden()
 
-    elif requset.method == "POST":
-        status = CarStatus.objects.all()
-        office = Office.objects.all()
+    if request.method == "GET":
+        return render(request,"add_car.html",{'title' : 'Add Car'})
 
-        plate_id = requset.POST['plate_id']
+    elif request.method == "POST":
+        plate_id = request.POST['plate_id']
         car = Car.objects.filter(pk=plate_id).first()
         if car is not None:
             return HttpResponseBadRequest()
 
-        model = requset.POST['model']
-        color = requset.POST['color']
-        year = requset.POST['year']
-        status = CarStatus.objects.get(name = requset.POST['status'])
-        belong_office = Office.objects.get(office_name = requset.POST['belong_office'])
+        model = request.POST['model']
+        color = request.POST['color']
+        year = request.POST['year']
+        status = CarStatus.objects.get(name = request.POST['status'])
+        belong_office = Office.objects.get(office_name = request.POST['belong_office'])
 
         data = Car(
             plate_id = plate_id,
