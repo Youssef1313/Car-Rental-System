@@ -3,12 +3,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.db import transaction
 from django.db.models import Q
+from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .forms import SignupForm
-from .models import Car, Customer, Office, Reservation
+from .models import Car, CarStatus, Customer, Office, Reservation
 from .serializers import CarSerializers, CustomerSerializers, ReservationSerializers
 
 # List = GET
@@ -138,7 +139,7 @@ def cars(request):
         cars = Car.objects.filter(mult_search)
     else:
         cars = Car.objects.all()
-    return render(request, "cars_customer.html", {"cars": cars, "title": "Cars"})
+    return render(request, "cars.html", {"cars": cars, "title": "Cars"})
 
 def reservations(request):
     # TODO: User-reservations only if not admin!!!
@@ -200,3 +201,48 @@ def reserve_car(request):
             car.save()
             reservation.save()
             return redirect('reservations')
+
+
+def edit_car(request, plate_id):
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        return HttpResponseForbidden()
+
+    car = Car.objects.get(pk=plate_id)
+    if request.method == "GET":
+        return render(request, "edit_car.html", {'car': car, 'title': 'Edit car'})
+    elif request.method == "POST":
+        car.model = request.POST.get('model')
+        car.color = request.POST.get('color')
+        car.year = request.POST.get('year')
+        car.save()
+        return redirect(cars)
+
+def add_car(requset):
+    if requset.method == "GET":
+        return render(requset,"add_car.html",{'title' : 'Add Car'})
+
+    elif requset.method == "POST":
+        status = CarStatus.objects.all()
+        office = Office.objects.all()
+
+        plate_id = requset.POST['plate_id']
+        car = Car.objects.filter(pk=plate_id).first()
+        if car is not None:
+            return HttpResponseBadRequest()
+
+        model = requset.POST['model']
+        color = requset.POST['color']
+        year = requset.POST['year']
+        status = CarStatus.objects.get(name = requset.POST['status'])
+        belong_office = Office.objects.get(office_name = requset.POST['belong_office'])
+
+        data = Car(
+            plate_id = plate_id,
+            model = model,
+            color = color,
+            year = year,
+            status = status,
+            belong_office = belong_office,
+        )
+        data.save()
+    return redirect(cars)

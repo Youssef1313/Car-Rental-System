@@ -32,4 +32,7 @@ urlpatterns = [
     path('signup/', app_view.signup_customer, name="signup"),
     path('logout/', app_view.logout_customer, name="logout"),
     path('reserve/', app_view.reserve_car, name="reserve_car"),
+    path('cars/edit/<int:plate_id>', app_view.edit_car, name="edit_car"),
+    path("cars/add/", app_view.add_car, name="add_car")
 ]
+
