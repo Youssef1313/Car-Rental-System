@@ -15,23 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.urls.conf import include
-from . import views as root_view
-from company import views as app_view
+from . import views
+from company.views import auth_views, car_views, reservation_views
 
 
 urlpatterns = [
-    path('', root_view.home, name="home"),
+    path('', views.home, name="home"),
     path('admin/', admin.site.urls, name="admin"),
-    path('customers/', app_view.customers, name="customers"),
-    path('cars/', app_view.cars, name="cars"),
-    path('reservations/', app_view.reservations, name="reservations"),
+    path('customers/', reservation_views.customers, name="customers"),
+    path('cars/', car_views.cars, name="cars"),
+    path('reservations/', reservation_views.reservations, name="reservations"),
     # path('api/cars/', app_view.post_get),
     # path('api/car/<int:plate_id>/', app_view.get_put_delete),
-    path('login/', app_view.login_customer, name="login"),
-    path('signup/', app_view.signup_customer, name="signup"),
-    path('logout/', app_view.logout_customer, name="logout"),
-    path('reserve/', app_view.reserve_car, name="reserve_car"),
-    path('cars/edit/<int:plate_id>', app_view.edit_car, name="edit_car"),
-    path("cars/add/", app_view.add_car, name="add_car"),
+    path('login/', auth_views.login_customer, name="login"),
+    path('signup/', auth_views.signup_customer, name="signup"),
+    path('logout/', auth_views.logout_customer, name="logout"),
+    path('reserve/', car_views.reserve_car, name="reserve_car"),
+    path('cars/edit/<int:plate_id>', car_views.edit_car, name="edit_car"),
+    path("cars/add/", car_views.add_car, name="add_car"),
 ]
