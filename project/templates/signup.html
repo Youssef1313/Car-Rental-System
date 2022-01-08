@@ -13,32 +13,49 @@
     {% csrf_token %}
     <div class="mb-3">
       <label for="username" class="form-label">Username</label>
+      {% if form.errors.username %}
       <div class="text-danger">{{ form.errors.username.as_text|escape|linebreaks }}</div>
-      <input type="text" class="form-control" id="username" name="username" required>
+      {% endif %}
+      <input type="text" class="form-control" id="username" name="username" value="{{ form.cleaned_data.username }}" required>
     </div>
+
     <div class="mb-3">
       <label for="first_name" class="form-label">First name</label>
+      {% if form.first_name.errors %}
       <div class="text-danger">{{ form.first_name.errors.as_text|escape|linebreaks }}</div>
-      <input type="text" class="form-control" id="first_name" name="first_name">
+      {% endif %}
+      <input type="text" class="form-control" id="first_name" name="first_name" value="{{ form.cleaned_data.first_name }}">
     </div>
+
     <div class="mb-3">
       <label for="last_name" class="form-label">Last name</label>
+      {% if form.last_name.errors %}
       <div class="text-danger">{{ form.last_name.errors.as_text|escape|linebreaks }}</div>
-      <input type="text" class="form-control" id="last_name" name="last_name">
+      {% endif %}
+      <input type="text" class="form-control" id="last_name" name="last_name" value="{{ form.cleaned_data.last_name }}">
     </div>
+
     <div class="mb-3">
       <label for="email" class="form-label">Email address</label>
+      {% if form.email.errors %}
       <div class="text-danger">{{ form.email.errors.as_text|escape|linebreaks }}</div>
-      <input type="email" class="form-control" id="email" name="email">
+      {% endif %}
+      <input type="email" class="form-control" id="email" name="email" value="{{ form.cleaned_data.email }}">
     </div>
+    
     <div class="mb-3">
       <label for="password1" class="form-label">Password</label>
+      {% if form.password1.errors %}
       <div class="text-danger">{{ form.password1.errors.as_text|escape|linebreaks }}</div>
+      {% endif %}
       <input type="password" class="form-control" id="password1" name="password1" autocomplete="new-password" required>
     </div>
+    
     <div class="mb-3">
       <label for="password2" class="form-label">Password confirmation</label>
+      {% if form.password2.errors %}
       <div class="text-danger">{{ form.password2.errors.as_text|escape|linebreaks }}</div>
+      {% endif %}
       <input type="password" class="form-control" id="password2" name="password2" autocomplete="new-password" required>
     </div>
     <button type="submit" class="btn btn-primary">Sign up</button>
