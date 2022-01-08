@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render
 from .forms import SignupForm
-from .models import Car, CarStatus, Customer, Office, Reservation
+from .models import Car, CarStatus, CarStatusConstants, Customer, Office, Reservation
 
 
 def customers(request):
@@ -126,6 +126,10 @@ def reserve_car(request):
             if car.is_reserved:
                 messages.info(request, 'Sorry, someone else has already reserved this car.')
                 return redirect('cars')
+            if car.status.id != CarStatusConstants.ACTIVE_ID:
+                messages.info(request, f'Sorry, this car is currently {car.status.name}')
+                return redirect('cars')
+
             reservation = Reservation(rental_date=datetime.now(), customer=request.user, car=car)
             car.is_reserved = True
             car.save()

@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
+class CarStatusConstants:
+    # NEVER change these values.
+    ACTIVE_ID = 1
+    OUT_OF_SERVICE_ID = 2
+
+
 class CarStatus(models.Model):
     id = models.SmallIntegerField(primary_key=True)
     name = models.CharField(max_length=64)
