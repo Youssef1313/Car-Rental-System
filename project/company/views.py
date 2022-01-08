@@ -5,75 +5,14 @@ from django.db import transaction
 from django.db.models import Q
 from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from .forms import SignupForm
-from .models import Car, CarStatus, Customer, Office, Reservation
-from .serializers import CarSerializers, CustomerSerializers, ReservationSerializers
-
-# List = GET
-# Create = POST
-# pk query = GET
-# Update = PUT
-# Delete (Destroy) = DELETE 
-
-# @api_view(['GET', 'POST'])
-# def post_get(request):
-
-#     # 1.GET
-#     if request.method == 'GET':
-#         cars = Car.objects.all()
-#         # print(cars)
-#         # print('ok')
-#         serializer = CarSerializers(cars ,many=True)
-#         return Response(serializer.data)
-
-#     elif request.method == 'POST':
-#         serializer = CarSerializers(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         else:
-#             Response(serializer.data ,status=status.HTTP_400_BAD_REQUEST)
-
-
-
-# @api_view(['GET','PUT','DELETE'])
-# def get_put_delete(request, plate_id):
-#     try:
-#         car = Car.objects.get(pk=plate_id)
-#         # Get_Car
-#         if request.method == 'GET':
-#             serializer = CarSerializers(car)
-#             return Response(serializer.data)
-
-#         # Put_Car -> Update
-#         if request.method == 'PUT':
-#             serializer = CarSerializers(car, data=request.data)
-#             if serializer.is_valid():
-#                 serializer.save()
-#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-#             else:
-#                 Response(serializer.errors ,status=status.HTTP_400_BAD_REQUEST)
-
-#         # Delete_Car
-#         if request.method == 'DELETE':
-#             car.delete()
-#             return Response(status=status.HTTP_204_NO_CONTENT)
-#     except Car.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-
+from .models import Car, CarStatus, CarStatusConstants, Customer, Office, Reservation
 
 
 def customers(request):
-    customers = Customer.objects.all()
-    return render(request, "customers.html", {"customers": customers, "title": "Customers"})
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        return HttpResponseForbidden()
 
-
-
-# Admin Search For Customer 
-def admin_customer(request):
     if 'customer_search' in request.GET:
         val = request.GET['customer_search']
         
@@ -89,23 +28,7 @@ def admin_customer(request):
         # customers = Customer.objects.filter(mult_search)
     else:
         customers = Customer.objects.all()
-    return render(request, "customer_admin.html", {"customer": customers, "title": "Customers"})
-
-def cars_admin(request):
-    if 'car_search' in request.GET:
-        val = request.GET['car_search']
-        mult_search = Q(Q(plate_id__icontains=val)|
-                         Q(model__icontains=val)|
-                         Q(color__icontains=val)|
-                         Q(year__icontains=val)|
-                         Q(belong_office__office_name__icontains=val)|
-                         Q(belong_office__office_location__icontains=val))
-        
-        cars = Car.objects.filter(mult_search)
-    else:
-        cars = Car.objects.all()
-    return render(request, "cars_admin.html", {"cars": cars, "title": "Cars"})
-
+    return render(request, "customers.html", {"customers": customers, "title": "Customers"})
 
 
 def reservation_admin(request):
@@ -142,8 +65,12 @@ def cars(request):
     return render(request, "cars.html", {"cars": cars, "title": "Cars"})
 
 def reservations(request):
-    # TODO: User-reservations only if not admin!!!
-    reservations = Reservation.objects.all()
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden()
+    if request.user.is_superuser:
+        reservations = Reservation.objects.all()
+    else:
+        reservations = Reservation.objects.filter(pk=request.user.id)
     return render(request, "reservations.html", {"reservations": reservations, "title": "Reservations"})
 
 def login_customer(request):
@@ -164,6 +91,7 @@ def login_customer(request):
     elif request.method == "GET":
         return render(request, "login.html", {"title": "Login"})
 
+
 def signup_customer(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -182,9 +110,11 @@ def signup_customer(request):
 
     return render(request, "signup.html", {'form': form, 'title': 'Sign up'})
 
+
 def logout_customer(request):
     logout(request)
     return redirect('home')
+
 
 def reserve_car(request):
     if request.method == "POST":
@@ -196,6 +126,10 @@ def reserve_car(request):
             if car.is_reserved:
                 messages.info(request, 'Sorry, someone else has already reserved this car.')
                 return redirect('cars')
+            if car.status.id != CarStatusConstants.ACTIVE_ID:
+                messages.info(request, f'Sorry, this car is currently {car.status.name}')
+                return redirect('cars')
+
             reservation = Reservation(rental_date=datetime.now(), customer=request.user, car=car)
             car.is_reserved = True
             car.save()
@@ -216,6 +150,7 @@ def edit_car(request, plate_id):
         car.year = request.POST.get('year')
         car.save()
         return redirect(cars)
+
 
 def add_car(request):
     if not request.user.is_authenticated or not request.user.is_superuser:
