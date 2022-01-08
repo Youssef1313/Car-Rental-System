@@ -70,6 +70,7 @@ def reservations(request):
     if request.user.is_superuser:
         reservations = Reservation.objects.all()
     else:
+        # Try to test request.user.reservations and see if that works.
         reservations = Reservation.objects.filter(pk=request.user.id)
     return render(request, "reservations.html", {"reservations": reservations, "title": "Reservations"})
 
