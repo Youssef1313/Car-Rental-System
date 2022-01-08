@@ -37,8 +37,8 @@ class Car(models.Model):
     model = models.CharField(max_length=256)
     color = models.CharField(max_length=64)
     year = models.PositiveSmallIntegerField()
-    status = models.ForeignKey(CarStatus, related_name='status', on_delete=models.RESTRICT)
-    belong_office = models.ForeignKey(Office, related_name='office', on_delete=models.CASCADE)
+    status = models.ForeignKey(CarStatus, related_name='cars', on_delete=models.RESTRICT)
+    belong_office = models.ForeignKey(Office, related_name='cars', on_delete=models.CASCADE)
     is_reserved = models.BooleanField(default=False)
 
     def __str__(self):
@@ -53,13 +53,9 @@ class Reservation(models.Model):
     rental_date = models.DateTimeField()
     pickup_date = models.DateTimeField(null=True)
     return_date = models.DateTimeField(null=True)
-    customer = models.ForeignKey(Customer, related_name='reservation', on_delete=models.RESTRICT)
-    car = models.ForeignKey(Car, related_name='reservation', on_delete=models.SET_NULL, null=True)
-    payment = models.ForeignKey(Payment, related_name='reservation', on_delete=models.RESTRICT, null=True)
+    customer = models.ForeignKey(Customer, related_name='reservations', on_delete=models.RESTRICT)
+    car = models.ForeignKey(Car, related_name='reservations', on_delete=models.SET_NULL, null=True)
+    payment = models.ForeignKey(Payment, related_name='reservation', on_delete=models.RESTRICT, null=True, unique=True)
 
     def __str__(self):
         return self.id
-    
-
-
-
