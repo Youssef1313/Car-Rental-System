@@ -31,7 +31,6 @@ urlpatterns = [
     path('cars/edit/<int:plate_id>', car_views.edit_car, name="edit_car"),
     path("cars/add/", car_views.add_car, name="add_car"),
     path("cars/details/<int:plate_id>", car_views.details, name="car_details"),
-    path('reserve/', car_views.reserve_car, name="reserve_car"),
 
     # Authentication urls
     path('login/', auth_views.login_customer, name="login"),
@@ -43,4 +42,5 @@ urlpatterns = [
 
     # Reservation urls
     path('reservations/', reservation_views.reservations, name="reservations"),
+    path('reserve/', reservation_views.reserve_car, name="reserve_car"),
 ]
