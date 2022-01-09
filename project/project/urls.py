@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
-from company.views import auth_views, car_views, customer_views, reservation_views, office_views
+from company.views import auth_views, car_views, customer_views, report_views, reservation_views, office_views
 
 
 urlpatterns = [
@@ -53,4 +53,8 @@ urlpatterns = [
     path('reservations/return/', reservation_views.return_reservation, name="return_reservation"),
     path('reservations/make_payment/<int:reservation_id>', reservation_views.make_payment, name="make_payment"),
     path('reserve/', reservation_views.reserve_car, name="reserve_car"),
+
+    # Reports urls
+    path('reports/',report_views.reports , name="report"),
+    path('reports/periodic/' ,report_views.reservations_within_a_period , name="periodic_repo")
 ]
