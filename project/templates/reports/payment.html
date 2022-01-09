@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Payment</h1>
+
+
+<div>
+    <form class="form-inline md-form mr-auto mb-4">
+        <h2>From</h2>
+        <div class="card bg-dark text-white">
+            <input class="form-control mr-sm-2" type="Date" placeholder="Search Plate ID" aria-label="Search"
+                name="start_date">
+        </div>
+        <h2>To</h2>
+        <div class="card bg-dark text-white">
+            <input class="form-control mr-sm-2" type="Date" placeholder="Search Model" aria-label="Search"
+                name="end_date">
+        </div>
+
+        <button class="btn btn-primary blue-gradient  btn-rounded btn-sm my-2" type="submit">Search</button>
+    </form>
+</div>
+
+
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Payment Date</th>
+            <th scope="col">Payment Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for payment in payments %}
+        <tr>
+            <td>{{ payment.payment_date }}</td>
+            <td>{{ payment_date.payment_amount }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
