@@ -20,8 +20,10 @@ def cars(request):
                         Q(color__icontains=search_color) &
                         Q(year__icontains=search_year) &
                         Q(belong_office__office_name__icontains=search_office_name) &
-                        Q(belong_office__office_location__icontains=search_office_location) &
-                        Q(is_reserved=is_reserved))
+                        Q(belong_office__office_location__icontains=search_office_location))
+
+        if request.GET['search_is_reserved'] != '':
+            mult_search = mult_search & Q(is_reserved=is_reserved)
 
         if request.GET['car_status'] != '':
             mult_search = mult_search & Q(status__id=request.GET['car_status'])
