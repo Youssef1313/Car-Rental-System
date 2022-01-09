@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
-from company.views import auth_views, car_views, customer_views, reservation_views
+from company.views import auth_views, car_views, customer_views, reservation_views, office_views
 
 
 urlpatterns = [
@@ -31,6 +31,12 @@ urlpatterns = [
     path('cars/edit/<int:plate_id>', car_views.edit_car, name="edit_car"),
     path("cars/add/", car_views.add_car, name="add_car"),
     path("cars/details/<int:plate_id>", car_views.details, name="car_details"),
+
+    # Office urls
+    path('offices/', office_views.offices, name="offices"),
+    path('offices/edit/<int:office_id>', office_views.edit_office, name="edit_office"),
+    path("offices/add/", office_views.add_office, name="add_office"),
+    path("offices/details/<int:office_id>", office_views.details, name="office_details"),
 
     # Authentication urls
     path('login/', auth_views.login_customer, name="login"),
