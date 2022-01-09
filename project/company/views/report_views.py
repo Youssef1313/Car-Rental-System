@@ -12,7 +12,7 @@ def specific_customer_reserve(request):
 
     customer_id = request.GET['customer_id']
     reservation = Reservation.objects.filter(customer__id = customer_id)
-    return render(request, "report/customer_reservation.html", {{reservation:"reservation", "title":"CustomerReservation"}})
+    return render(request, "report/customer_reservation.html", {{reservation:"reservations", "title":"Customer reservation"}})
 
 def payments_specific_period(request):
     if not request.user.is_superuser:
