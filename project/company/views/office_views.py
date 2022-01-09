@@ -1,5 +1,5 @@
+from django.contrib import messages
 from django.db.models import Q
-from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render
 from ..models import Office
 
@@ -22,7 +22,8 @@ def offices(request):
 
 def edit_office(request, office_id):
     if not request.user.is_authenticated or not request.user.is_superuser:
-        return HttpResponseForbidden()
+        messages.success(request, 'Only admin users can edit an office.')
+        return redirect(offices)
 
     office = Office.objects.get(pk=office_id)
     if request.method == "GET":
@@ -36,7 +37,8 @@ def edit_office(request, office_id):
 
 def add_office(request):
     if not request.user.is_authenticated or not request.user.is_superuser:
-        return HttpResponseForbidden()
+        messages.success(request, 'Only admin users can add an office.')
+        return redirect(offices)
 
     if request.method == "GET":
         return render(request,"offices/add_office.html",{'title' : 'Add Office'})

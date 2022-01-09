@@ -36,11 +36,17 @@
                 name="search_year">
         </div>
 
-        <select id="car_status" name="car_status" class="form-select" aria-label="Default select example">
+        <select id="car_status" name="car_status" class="form-select">
             <option value="">Any</option>
             {% for car_status in car_statuses %}
                 <option value="{{ car_status.id }}">{{ car_status.name }}</option>
             {% endfor %}
+        </select>
+
+        <select id="search_is_reserved" name="search_is_reserved" class="form-select">
+            <option value="">Reserved and non-reserved</option>
+            <option value="true">Reserved only</option>
+            <option value="false">Non-reserved only</option>
         </select>
 
         <div class="card bg-dark text-white">
@@ -71,6 +77,8 @@
             <th>Year</th>
             <th>Office Name</th>
             <th>Office Location</th>
+            <th>Status</th>
+            <th>Is reserved</th>
             <th></th>
             {% if request.user.is_superuser %}
                 <th></th>
@@ -85,6 +93,12 @@
                 <td>{{ car.year }}</td>
                 <td>{{ car.belong_office.office_name }}</td>
                 <td>{{ car.belong_office.office_location }}</td>
+                <td>{{ car.status.name }}</td>
+                {% if car.is_reserved %}
+                    <td>Yes</td>
+                {% else %}
+                    <td>No</td>
+                {% endif %}
 
                 <td><button class="btn btn-primary" onclick="showConfirmRegisterationModal({{ car.plate_id }})">Reserve</button></td>
                 {% if request.user.is_superuser %}
