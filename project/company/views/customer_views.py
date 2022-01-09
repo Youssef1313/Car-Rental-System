@@ -20,13 +20,13 @@ def customers(request):
         search_first_name = request.GET['search_first_name']
         search_last_name = request.GET['search_last_name']
         search_email = request.GET['search_email']
-        search_superuser = request.GET['search_superuser']
+        # search_superuser = request.GET['search_superuser']
+
         mult_search = Q(Q(id__icontains=search_id)|
                             Q(username__icontains=search_username)|
                             Q(first_name__icontains=search_first_name)|
                             Q(last_name__icontains=search_last_name)|
-                            Q(email__icontains=search_email)|
-                            Q(is_superuser__icontains=search_superuser))
+                            Q(email__icontains=search_email))
         
         customers = Customer.objects.filter(mult_search)
     else:
