@@ -3,9 +3,20 @@
 {% block content %}
 
 <h1>Offices</h1>
-<div class="card bg-dark text-white">
+<div>
 	<form class="form-inline md-form mr-auto mb-4">
-		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="value">
+        <div class="card bg-dark text-white">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search office id" aria-label="Search" name="search_id">
+        </div>
+
+        <div class="card bg-dark text-white">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search office name" aria-label="Search" name="search_name">
+        </div>
+        
+        <div class="card bg-dark text-white">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search office location" aria-label="Search" name="search_location">
+        </div>
+		
 		<button class="btn btn-primary blue-gradient  btn-rounded btn-sm my-2" type="submit">Search</button>
 	</form>
 </div>
