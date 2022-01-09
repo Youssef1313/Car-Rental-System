@@ -9,10 +9,10 @@ from ..models import Customer, Reservation, CarStatusConstants, Car, Payment
 def specific_customer_reserve(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
-        
+
     customer_id = request['customer_id']
     reservation = Reservation.objects.filter(customer_id = customer_id)
-    return render(request, "reports/report/customer_reservation.html", {{reservation:"reservation", "title":"CustomerReservation"}})
+    return render(request, "report/report/customer_reservation.html", {{reservation:"reservation", "title":"CustomerReservation"}})
 
 def payments_specific_period(request):
     if not request.user.is_superuser:
@@ -20,6 +20,6 @@ def payments_specific_period(request):
 
     start_date = request['start_date']
     end_date = request['end_date']
-    reservation =  Reservation.objects.filter(pub_date__range=(start_date, end_date))
-    total_payment = reservation.filter(field_name__isnull=True).aggregate(Sum('payment_id__payment_amount'))
-    return render(request, "reports/report/payment.html", {reservation:"reservation", total_payment:"total_payment", "title":"Payment"})
+    payments =  Payment.objects.filter(payment_date__range=(start_date, end_date)).values("payment_date").annotate(Sum('payment_amount'))
+    # total_payment = payments.filter(field_name__isnull=True).aggregate(Sum('payment_amount'))
+    return render(request, "report/report/payment.html", {payments:"payments", "title":"Payment"})
