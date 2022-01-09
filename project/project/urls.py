@@ -56,5 +56,6 @@ urlpatterns = [
 
     # Reports urls
     path('reports/',report_views.reports , name="report"),
-    path('reports/periodic/' ,report_views.reservations_within_a_period , name="periodic_repo")
+    path('reports/periodic/' ,report_views.reservations_within_a_period , name="periodic_repo"),
+    path("reports/carsreports/", report_views.car_reservations_with_a_period, name="cars_periodic_repo"),
 ]
