@@ -8,6 +8,7 @@ from ..models import Car, CarStatus, CarStatusChangeLog, Office
 
 
 def cars(request):
+    search_dictionary = {}
     if 'search_plate_id' in request.GET:
         search_plate_id = request.GET['search_plate_id']
         search_model = request.GET['search_model']
@@ -29,10 +30,20 @@ def cars(request):
             mult_search = mult_search & Q(status__id=request.GET['car_status'])
 
         cars = Car.objects.filter(mult_search)
+        search_dictionary = {
+            "plate_id": search_plate_id,
+            "model": search_model,
+            "color": search_color,
+            "year": search_year,
+            "office_name": search_office_name,
+            "office_location": search_office_location,
+            "is_reserved": request.GET['search_is_reserved'],
+            "car_status": request.GET['car_status'],
+        }
     else:
         cars = Car.objects.all()
     car_statuses = CarStatus.objects.all()
-    return render(request, "cars/cars.html", {"cars": cars, "car_statuses": car_statuses, "title": "Cars"})
+    return render(request, "cars/cars.html", {"cars": cars, "car_statuses": car_statuses, "title": "Cars", "search_dictionary": search_dictionary})
 
 
 def edit_car(request, plate_id):

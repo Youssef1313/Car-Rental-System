@@ -5,6 +5,7 @@ from ..models import Office
 
 
 def offices(request):
+    search_dictionary = {}
     if 'search_id' in request.GET:
         search_id = request.GET['search_id']
         search_name = request.GET['search_name']
@@ -15,9 +16,10 @@ def offices(request):
                          Q(office_location__icontains = search_location))
         
         offices = Office.objects.filter(mult_search)
+        search_dictionary = { "id": search_id, "name": search_name, "location": search_location }
     else:
         offices = Office.objects.all()
-    return render(request, "offices/offices.html", {"offices": offices, "title": "Our offices"})
+    return render(request, "offices/offices.html", {"offices": offices, "title": "Our offices", "search_dictionary": search_dictionary})
 
 
 def edit_office(request, office_id):

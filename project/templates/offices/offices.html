@@ -3,22 +3,24 @@
 {% block content %}
 
 <h1>Offices</h1>
+
 <div>
-	<form class="form-inline md-form mr-auto mb-4">
-        <div class="card bg-dark text-white">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search office id" aria-label="Search" name="search_id">
+    <form class="form-inline md-form mr-auto mb-4">
+        <div class="form-group">
+            <label for="search_id">Office id</label>
+            <input class="form-control mr-sm-2 bg-dark text-white" type="search" name="search_id" id="search_id" value="{{ search_dictionary.id }}">
+        </div>
+        <div class="form-group">
+            <label for="search_name">Office name</label>
+            <input class="form-control mr-sm-2 bg-dark text-white" type="search" name="search_name" id="search_name" value="{{ search_dictionary.name }}">
+        </div>
+        <div class="form-group">
+            <label for="search_location">Office location</label>
+            <input class="form-control mr-sm-2 bg-dark text-white" type="search" name="search_location" id="search_location" value="{{ search_dictionary.location }}">
         </div>
 
-        <div class="card bg-dark text-white">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search office name" aria-label="Search" name="search_name">
-        </div>
-        
-        <div class="card bg-dark text-white">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search office location" aria-label="Search" name="search_location">
-        </div>
-		
-		<button class="btn btn-primary blue-gradient  btn-rounded btn-sm my-2" type="submit">Search</button>
-	</form>
+        <button class="btn btn-primary blue-gradient btn-rounded m-2" type="submit">Search</button>
+    </form>
 </div>
 
 <div>

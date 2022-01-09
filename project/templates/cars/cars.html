@@ -19,46 +19,72 @@
 
 <div>
     <form class="form-inline md-form mr-auto mb-4">
-        <div class="card bg-dark text-white">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search Plate ID" aria-label="Search"
-                name="search_plate_id">
+        <div class="form-group">
+            <label for="search_plate_id">Plate id</label>
+            <input class="form-control mr-sm-2 bg-dark text-white" type="search" name="search_plate_id" id="search_plate_id" value="{{ search_dictionary.plate_id }}">
         </div>
-        <div class="card bg-dark text-white">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search Model" aria-label="Search"
-                name="search_model">
+        <div class="form-group">
+            <label for="search_model">Model</label>
+            <input class="form-control mr-sm-2 bg-dark text-white" type="search" name="search_model" id="search_model" value="{{ search_dictionary.model }}">
         </div>
-        <div class="card bg-dark text-white">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search Color" aria-label="Search"
-                name="search_color">
+        <div class="form-group">
+            <label for="search_color">Color</label>
+            <input class="form-control mr-sm-2 bg-dark text-white" type="search" name="search_color" id="search_color" value="{{ search_dictionary.color }}">
         </div>
-        <div class="card bg-dark text-white">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search Year" aria-label="Search"
-                name="search_year">
+        <div class="form-group">
+            <label for="search_year">Year</label>
+            <input class="form-control mr-sm-2 bg-dark text-white" type="search" name="search_year" id="search_year" value="{{ search_dictionary.year }}">
+        </div>
+        <div class="form-group">
+            <label for="car_status">Status</label>
+            <select id="car_status" name="car_status" class="form-select bg-dark text-white">
+                {% if search_dictionary.car_status == '' %}
+                    <option value="" selected>Any</option>
+                {% else %}
+                    <option value="">Any</option>
+                {% endif %}
+
+                {% for car_status in car_statuses %}
+                    {% if search_dictionary.car_status == car_status.id|stringformat:"s" %}
+                        <option value="{{ car_status.id }}" selected>{{ car_status.name }}</option>
+                    {% else %}
+                        <option value="{{ car_status.id }}">{{ car_status.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="search_is_reserved">Is reserved</label>
+            <select id="search_is_reserved" name="search_is_reserved" class="form-select bg-dark text-white">
+                {% if search_dictionary.is_reserved == '' %}
+                    <option value="" selected>Any</option>
+                {% else %}
+                    <option value="">Any</option>
+                {% endif %}
+
+                {% if search_dictionary.is_reserved == 'true' %}
+                    <option value="true" selected>Reserved only</option>
+                {% else %}
+                    <option value="true">Reserved only</option>
+                {% endif %}
+
+                {% if search_dictionary.is_reserved == 'false' %}
+                    <option value="false" selected>Non-reserved only</option>
+                {% else %}
+                    <option value="false">Non-reserved only</option>
+                {% endif %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="search_office_name">Office name</label>
+            <input class="form-control mr-sm-2 bg-dark text-white" type="search" name="search_office_name" value="{{ search_dictionary.office_name }}">
+        </div>
+        <div class="form-group">
+            <label for="search_office_location">Office Location</label>
+            <input class="form-control mr-sm-2 bg-dark text-white" type="search" name="search_office_location" value="{{ search_dictionary.office_location }}">
         </div>
 
-        <select id="car_status" name="car_status" class="form-select">
-            <option value="">Any</option>
-            {% for car_status in car_statuses %}
-                <option value="{{ car_status.id }}">{{ car_status.name }}</option>
-            {% endfor %}
-        </select>
-
-        <select id="search_is_reserved" name="search_is_reserved" class="form-select">
-            <option value="">Reserved and non-reserved</option>
-            <option value="true">Reserved only</option>
-            <option value="false">Non-reserved only</option>
-        </select>
-
-        <div class="card bg-dark text-white">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search Office Name" aria-label="Search"
-                name="search_office_name">
-        </div>
-        <div class="card bg-dark text-white">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search Office Location" aria-label="Search"
-                name="search_office_location">
-        </div>
-
-        <button class="btn btn-primary blue-gradient  btn-rounded btn-sm my-2" type="submit">Search</button>
+        <button class="btn btn-primary blue-gradient btn-rounded m-2" type="submit">Search</button>
     </form>
 </div>
 

@@ -11,7 +11,7 @@ from ..models import Reservation, CarStatusConstants, Car, Payment
 def reservations(request):
     if not request.user.is_authenticated:
         return redirect("login")        
-        
+
     if request.user.is_superuser:
         if 'search_rental_date' in request.GET:
             search_plate_id = request.GET['search_plate_id']
@@ -21,11 +21,10 @@ def reservations(request):
                              Q(car__plate_id__icontains=search_plate_id))
             if search_rental_date != '':
                 mult_search = mult_search & Q(rental_date__lt=datetime.fromisoformat(search_rental_date) + timedelta(days=1))
-                          
+
             reservations = Reservation.objects.filter(mult_search)
         else:
             reservations = Reservation.objects.all()
-        
     else:
         if 'search_rental_date' in request.GET:
             search_plate_id = request.GET['search_plate_id']
@@ -39,7 +38,6 @@ def reservations(request):
             reservations = request.user.reservations.all()
 
     return render(request, "reservations/reservations.html", {"reservations": reservations, "title": "Reservations"})
-
 
 
 def reserve_car(request):
