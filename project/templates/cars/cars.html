@@ -35,6 +35,14 @@
             <input class="form-control mr-sm-2" type="search" placeholder="Search Year" aria-label="Search"
                 name="search_year">
         </div>
+
+        <select id="car_status" name="car_status" class="form-select" aria-label="Default select example">
+            <option value="">Any</option>
+            {% for car_status in car_statuses %}
+                <option value="{{ car_status.id }}">{{ car_status.name }}</option>
+            {% endfor %}
+        </select>
+
         <div class="card bg-dark text-white">
             <input class="form-control mr-sm-2" type="search" placeholder="Search Office Name" aria-label="Search"
                 name="search_office_name">

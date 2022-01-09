@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render
-from ..models import Car, CarStatus, Office, Reservation
+from ..models import Car, CarStatus, Office
 
 
 def cars(request):
@@ -13,16 +13,21 @@ def cars(request):
         search_office_name = request.GET['search_office_name']
         search_office_location = request.GET['search_office_location']
     
-        mult_search = Q(Q(plate_id__icontains=search_plate_id)&
-                        Q(model__icontains=search_model)&
-                        Q(color__icontains=search_color)&
-                        Q(year__icontains=search_year)&
-                        Q(belong_office__office_name__icontains=search_office_name)&
+        mult_search = Q(Q(plate_id__icontains=search_plate_id) &
+                        Q(model__icontains=search_model) &
+                        Q(color__icontains=search_color) &
+                        Q(year__icontains=search_year) &
+                        Q(belong_office__office_name__icontains=search_office_name) &
                         Q(belong_office__office_location__icontains=search_office_location))
+
+        if request.GET['car_status'] != '':
+            mult_search = mult_search & Q(status__id=request.GET['car_status'])
+
         cars = Car.objects.filter(mult_search)
     else:
         cars = Car.objects.all()
-    return render(request, "cars/cars.html", {"cars": cars, "title": "Cars"})
+    car_statuses = CarStatus.objects.all()
+    return render(request, "cars/cars.html", {"cars": cars, "car_statuses": car_statuses, "title": "Cars"})
 
 
 def edit_car(request, plate_id):
