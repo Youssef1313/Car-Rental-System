@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <h1>REPORTS</h1>
+</div>
+
+
+<form class="d-flex flex-row bd-highlight mb-3" action="{% url 'periodic_repo' %}">
+    <div class="p-2 bd-highlight flex-fill">
+        Show Periodic Report With Cars and Customers
+    </div>
+    <div class="p-2 bd-highlight flex-fill">
+        <input class="form-control mr-sm-2" type="date" placeholder="from" aria-label="Search" name="from_date">
+    </div>
+    <div class="p-2 bd-highlight flex-fill">
+        <input class="form-control mr-sm-2" type="date" placeholder="to" aria-label="Search" name="to_date">
+    </div>
+    <button type="submit" class="btn btn-primary flex-fill">Show REPORT</button>
+</form>
+
+<form class="d-flex flex-row bd-highlight mb-3" action="{% url 'periodic_repo' %}">
+    <div class="p-2 bd-highlight flex-fill">
+        Show  All Reservations Report With Cars
+    </div>
+    <div class="p-2 bd-highlight flex-fill">
+        <input class="form-control mr-sm-2" type="date" placeholder="from" aria-label="Search" name="Report car date from">
+    </div>
+    <div class="p-2 bd-highlight flex-fill">
+        <input class="form-control mr-sm-2" type="date" placeholder="to" aria-label="Search" name="Report car date to">
+    </div>
+    <button type="submit" class="btn btn-primary flex-fill">Show REPORT</button>
+</form>
+
+<form class="d-flex flex-row bd-highlight mb-3" action="{% url 'periodic_repo' %}">
+    <div class="p-2 bd-highlight flex-fill">
+        Show Cars Status On A Specific Day
+    </div>
+    <div class="p-2 bd-highlight flex-fill">
+        <input class="form-control mr-sm-2" type="date" placeholder="Interval" aria-label="Search" name="car status">
+    </div>
+    <button type="submit" class="btn btn-primary flex-fill">Show REPORT</button>
+</form>
+
+<form class="d-flex flex-row bd-highlight mb-3" action="{% url 'periodic_repo' %}">
+    <div class="p-2 bd-highlight flex-fill">
+        Show All Reservations Of A Specific Customer
+    </div>
+    <div class="p-2 bd-highlight flex-fill">
+        <input class="form-control mr-sm-2" type="search" placeholder="Customer ID" aria-label="Search" name="search_customer_id">
+    </div>
+    <button type="submit" class="btn btn-primary flex-fill">Show Reservations</button>
+</form>
+
+<form class="d-flex flex-row bd-highlight mb-3" action="{% url 'periodic_repo' %}">
+    <div class="p-2 bd-highlight flex-fill">
+        Show Daily Payment
+    </div>
+    <div class="p-2 bd-highlight flex-fill">
+        <input class="form-control mr-sm-2" type="date" placeholder="from" aria-label="Search" name="payment from">
+    </div>
+    <div class="p-2 bd-highlight flex-fill">
+        <input class="form-control mr-sm-2" type="date" placeholder="to" aria-label="Search" name="payment to">
+    </div>
+    <button type="submit" class="btn btn-primary flex-fill">Show Reservations</button>
+</form>
+
+{% endblock %}
+
+{% comment %} <tr> {% endcomment %}
+    {% comment %} <form>    
+            <td>Show Periodic Report With Cars and Customers</td>
+            <td><input class="form-control mr-sm-2" type="date" placeholder="from" aria-label="Search"
+                name="Report date from"></td>
+            <td><input class="form-control mr-sm-2" type="date" placeholder="to" aria-label="Search"
+                name="Report date to"></td>
+            <td><a class="btn btn-primary flex-fill" href="{% url 'periodic_repo' %}">Show REPORT</a></td>
+        
+    </form> {% endcomment %}
+{% comment %} </tr> {% endcomment %}
+{% comment %} <div> {% endcomment %}
+    {% comment %} <form>
+        <tr>
+            <td>Show  All Reservations Report With Cars</td>
+            <td><input class="form-control mr-sm-2" type="date" placeholder="from" aria-label="Search"
+                    name="Report car date from"></td>
+            <td><input class="form-control mr-sm-2" type="date" placeholder="to" aria-label="Search"
+                    name="Report car date to"></td>
+            <td><a class="btn btn-primary flex-fill" href="{% url 'periodic_repo' %}">Show REPORT</a></td>
+        </tr>
+    </form> {% endcomment %}
+{% comment %} </div> {% endcomment %}
+{% comment %} <div>
+    <form>
+        <tr>
+            <td>Show Cars Status On A Specific Day</td>
+            <td><input class="form-control mr-sm-2" type="date" placeholder="Interval" aria-label="Search"
+                    name="car status"></td>
+            <td><a class="btn btn-primary flex-fill" href="{% url 'periodic_repo' %}">Show Cars</a></td>
+        </tr>
+    </form>
+</div> {% endcomment %}
+{% comment %} <div>
+    <form>
+        <tr>
+            <td>Show All Reservations Of A Specific Customer</td>
+            <td><input class="form-control mr-sm-2" type="search" placeholder="Customer ID" aria-label="Search"
+                name="search_customer_id"></td>
+            <td><a class="btn btn-primary flex-fill" href="{% url 'periodic_repo' %}">Show Reservations</a></td>
+        </tr>
+    </form>
+</div> {% endcomment %}
+{% comment %} <div>
+    <form>
+        <tr>
+            <td>Show Daily Payment </td>
+            <td><input class="form-control mr-sm-2" type="date" placeholder="from" aria-label="Search"
+                name="payment from"></td>
+            <td><input class="form-control mr-sm-2" type="date" placeholder="to" aria-label="Search"
+                name="payment to"></td>
+            <td><a class="btn btn-primary flex-fill" href="{% url 'periodic_repo' %}">Show Payments</a></td>
+        </tr>
+    </form>  
+</div> {% endcomment %}

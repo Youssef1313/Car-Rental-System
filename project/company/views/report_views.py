@@ -13,7 +13,13 @@ def payments_specific_period(request):
     pass
 
 def reports(request):
-    return render(request , "report/report.html" , {'report' : reports , 'title' : 'Reports'} )
+    return render(request , "reports/report.html" , {'report' : reports , 'title' : 'Reports'} )
 
-def periodic_repo(request):
-    return render(request , "report/periodic_repo.html" , {'periodic_repo' : periodic_repo , 'title' : 'periodic repo'} )
+def reservations_within_a_period(request):
+    from_date = datetime.fromisoformat(request.GET['from_date'])
+    to_date = datetime.fromisoformat(request.GET['to_date'])
+    reservations = Reservation.objects.filter(
+        rental_date__gte=from_date,
+        rental_date__lt=to_date + timedelta(days=1)
+    )
+    return render(request , "reports/reservations_within_a_period.html" , {'title' : 'Customer reservations in a given period', 'reservations': reservations})
