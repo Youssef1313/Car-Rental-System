@@ -17,16 +17,12 @@ def reservations(request):
             search_plate_id = request.GET['search_plate_id']
             search_customer_id = request.GET['search_customer_id']
             search_rental_date = request.GET['search_rental_date']
-            print(request.GET)
-            print(search_rental_date)  
-            print()      
             mult_search = Q(Q(customer__id__icontains=search_customer_id)&
                              Q(car__plate_id__icontains=search_plate_id))
             if search_rental_date != '':
                 mult_search = mult_search & Q(rental_date__lt=datetime.fromisoformat(search_rental_date) + timedelta(days=1))
                           
             reservations = Reservation.objects.filter(mult_search)
-            print(reservations.query)
         else:
             reservations = Reservation.objects.all()
         
@@ -34,9 +30,6 @@ def reservations(request):
         if 'search_rental_date' in request.GET:
             search_plate_id = request.GET['search_plate_id']
             search_rental_date = request.GET['search_rental_date']
-            print(request.GET)
-            print(search_rental_date)  
-            print()      
             mult_search = Q(car__plate_id__icontains=search_plate_id)
             if search_rental_date != '':
                 mult_search = mult_search & Q(rental_date__lt=datetime.fromisoformat(search_rental_date) + timedelta(days=1))
