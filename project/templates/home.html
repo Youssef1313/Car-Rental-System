@@ -1,4 +1,58 @@
 {% extends 'base.html' %}
-{% block content %}
-    <h1>Hello world</h1>
+{% load static %}
+{% block head_tag %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<script src="{% static 'js/fontawesome.js' %}" crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block home_content %}
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+    <div class="container text-center text-md-left" data-aos="fade-up">
+      <h1>Welcome to <span>Rently</span></h1>
+      <h2>A world-wide car rental service</h2>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Why choose us ======= -->
+    <section id="why-choose-us" class="why-choose-us">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Why choose us</h2>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="icon-box">
+              <div class="icon"><i class="fas fa-comment-dollar"></i></div>
+              <h4><a href="">Affordable</a></h4>
+              <p>Our prices are very competitive</p>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="icon-box">
+              <div class="icon"><i class="fas fa-car"></i></div>
+              <h4><a href="">Variety of cars</a></h4>
+              <p>We offer lots of cars you can choose from</p>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="icon-box">
+              <div class="icon"><i class="fas fa-globe"></i></div>
+              <h4><a href="">Worldwide</a></h4>
+              <p>We have offices all over the world</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End What We Do Section -->
+
+  </main><!-- End #main -->
 {% endblock %}
