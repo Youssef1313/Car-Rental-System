@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Reservation details</h1>
+
+<ul class="list-group">
+    <li class="list-group-item list-group-item-dark">Reservation id: {{ reservation.id }}</li>
+    <li class="list-group-item list-group-item-dark">Rental date: {{ reservation.rental_date }}</li>
+    <li class="list-group-item list-group-item-dark">Pickup date: {{ reservation.pickup_date }}</li>
+    <li class="list-group-item list-group-item-dark">Return date: {{ reservation.return_date }}</li>
+    <li class="list-group-item list-group-item-dark">Customer id: <a href="#">{{ reservation.customer.id }}</a></li>
+    <li class="list-group-item list-group-item-dark">Car id: <a href="{% url 'car_details' plate_id=reservation.car.plate_id %}">{{ reservation.car.plate_id }}</a></li>
+    <li class="list-group-item list-group-item-dark">Payment id: {{ reservation.payment.id }}</li>
+    <li class="list-group-item list-group-item-dark">Payment date: {{ reservation.payment.payment_date }}</li>
+    <li class="list-group-item list-group-item-dark">Payment amount: {{ reservation.payment.payment_amount }}</li>
+</ul>
+
+<div>
+{% if user.is_superuser %}
+    {% if reservation.pickup_date is None %}
+        <form method="POST" action="{% url 'pickup_reservation' %}">
+            {% csrf_token %}
+            <input type="hidden" name="reservation_id" id="reservation_id" value="{{ reservation.id }}" />
+            <button type="submit" class="btn btn-primary m-2">Mark as picked up</button>
+        </form>
+    {% endif %}
+    {% if reservation.return_date is None and reservation.pickup_date is not None %}
+        <form method="POST" action="{% url 'return_reservation' %}">
+            {% csrf_token %}
+            <input type="hidden" name="reservation_id" id="reservation_id" value="{{ reservation.id }}" />
+            <button type="submit" class="btn btn-primary m-2">Mark as returned</button>
+        </form>
+    {% endif %}
+    {% if reservation.payment is None %}
+        <a href="#" class="btn btn-primary m-2" role="button">Make payment for this reservation</a>
+    {% endif %}
+{% endif %}
+</div>
+{% endblock %}
