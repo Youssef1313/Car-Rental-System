@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Customer Reservation</h1>
+
+    <div>
+        <form class="form-inline md-form mr-auto mb-4">
+            <div class="card bg-dark text-white">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Customer ID" aria-label="Search"
+                    name="customer_id">
+            </div>
+            <button class="btn btn-primary blue-gradient  btn-rounded btn-sm my-2" type="submit">Search</button>
+        </form>
+    </div>
+
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">First Name Date</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Plate ID</th>
+                <th scope="col">Model</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.customer.username }}</td>
+                <td>{{ reservation.customer.first_name }}</td>
+                <td>{{ reservation.customer.last_name }}</td>
+                <td>{{ reservation.customer.email }}</td>
+                <td>{{ reservation.car.plate_id }}</td>
+                <td>{{ reservation.car.model }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+  {% endblock %}

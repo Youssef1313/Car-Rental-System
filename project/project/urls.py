@@ -56,5 +56,8 @@ urlpatterns = [
 
     # Reports urls
     path('reports/',report_views.reports , name="report"),
-    path('reports/periodic/' ,report_views.reservations_within_a_period , name="periodic_repo")
+    path('reports/periodic/' ,report_views.reservations_within_a_period , name="periodic_repo"),
+    path('reports/customer_reservation', report_views.specific_customer_reserve, name="customer_reservation"),
+    path('reports/payment', report_views.payments_specific_period, name="payment"),
 ]
+
