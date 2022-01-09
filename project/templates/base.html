@@ -32,12 +32,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'reservations' %}">Reservations</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'offices' %}">Offices</a>
+                    </li>
                     {% if user.is_superuser %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'customers' %}">Customers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Offices</a>
                     </li>
                     {% endif %}
                 </ul>

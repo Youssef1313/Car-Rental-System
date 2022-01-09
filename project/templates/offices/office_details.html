@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Office details</h1>
+
+<ul class="list-group">
+    <li class="list-group-item list-group-item-dark">Office id: {{ office.id }}</li>
+    <li class="list-group-item list-group-item-dark">Office name: {{ office.office_name }}</li>
+    <li class="list-group-item list-group-item-dark">Office location: {{ office.office_location }}</li>
+</ul>
+{% endblock %}

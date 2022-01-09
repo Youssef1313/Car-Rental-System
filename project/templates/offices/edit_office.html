@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Editing office whose id is {{ office.id }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="office_name" class="form-label">Office name</label>
+            <input type="text" class="form-control" id="office_name" name="office_name" value="{{ office.office_name }}">
+        </div>
+        <div class="mb-3">
+            <label for="office_location" class="form-label">Office location</label>
+            <input type="text" class="form-control" id="office_location" name="office_location" value="{{ office.office_location }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+{% endblock %}
