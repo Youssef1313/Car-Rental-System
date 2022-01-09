@@ -6,4 +6,8 @@ from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render
 from ..models import Reservation, CarStatusConstants, Car, Payment
 
+def specific_customer_reserve(request):
+    pass
 
+def payments_specific_period(request):
+    pass
