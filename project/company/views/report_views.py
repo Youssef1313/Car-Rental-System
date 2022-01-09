@@ -18,7 +18,7 @@ def payments_specific_period(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
 
-    start_date = request.GET['start_date']
-    end_date = request.GET['end_date']
+    start_date = datetime.date(request.GET['start_date'])
+    end_date = datetime.date(request.GET['end_date'])
     payments =  Payment.objects.filter(payment_date__range=(start_date, end_date)).values("payment_date").annotate(Sum('payment_amount'))
     return render(request, "report/payment.html", {payments:"payments", "title":"Payment"})
