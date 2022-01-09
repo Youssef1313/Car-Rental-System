@@ -4,18 +4,24 @@
     <h1>REPORTS</h1>
 </div>
 
-{% comment %}  all reservations within a specified period including all car and customer information. {% endcomment %}
-<a href="{% url 'periodic_repo' %}" class="btn btn-primary m-2">Show all reservations within a specified period</a>
+<div class = "card bg-dark text-white">
+    <table class = "table table-dark table-striped">
+        <tr>
+            {% comment %}  all reservations within a specified period including all car and customer information. {% endcomment %}
+            <a href="{% url 'periodic_repo' %}" class="btn btn-primary m-2">Show all reservations within a specified period</a>
 
-{% comment %} all reservations of any car within a specified period including all car information. {% endcomment %}
-<a href="{% url 'cars_periodic_repo' %}" class="btn btn-primary m-2">Show all reservations of any car within a specified period</a>
+            {% comment %} all reservations of any car within a specified period including all car information. {% endcomment %}
+            <a href="{% url 'cars_periodic_repo' %}" class="btn btn-primary m-2">Show all reservations of any car within a specified period</a>
 
-{% comment %}  the status of all cars on a specific day. {% endcomment %}
-<a href="{% url 'status' %}" class="btn btn-primary m-2">Show status of all cars on a specific day</a>
+            {% comment %}  the status of all cars on a specific day. {% endcomment %}
+            <a href="{% url 'status' %}" class="btn btn-primary m-2">Show status of all cars on a specific day</a>
 
-{% comment %} all reservations of specific customer including customer information, car model and plate id. {% endcomment %}
-<a href="{% url 'customer_reservation' %}" class="btn btn-primary m-2">Show all reservations of specific customer</a>
+            {% comment %} all reservations of specific customer including customer information, car model and plate id. {% endcomment %}
+            <a href="{% url 'customer_reservation' %}" class="btn btn-primary m-2">Show all reservations of specific customer</a>
 
-{% comment %} daily payments within specific period. {% endcomment %}
-<a href="{% url 'payment' %}" class="btn btn-primary m-2">Show daily payments within a specific period</a>
+            {% comment %} daily payments within specific period. {% endcomment %}
+            <a href="{% url 'payment' %}" class="btn btn-primary m-2">Show daily payments within a specific period</a>
+        </tr>
+    </table>
+</div>
 {% endblock %}
