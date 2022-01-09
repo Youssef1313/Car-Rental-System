@@ -28,7 +28,7 @@ def reservation_admin(request):
 
 def reservations(request):
     if not request.user.is_authenticated:
-        return HttpResponseForbidden()
+        return redirect("login")
     if request.user.is_superuser:
         reservations = Reservation.objects.all()
     else:
