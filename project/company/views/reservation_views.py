@@ -7,6 +7,7 @@ from django.shortcuts import redirect, render
 from ..models import Reservation, CarStatusConstants, Car, Payment
 
 
+
 def reservations(request):
     if not request.user.is_authenticated:
         return HttpResponseForbidden()
