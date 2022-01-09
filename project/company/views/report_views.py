@@ -11,3 +11,9 @@ def specific_customer_reserve(request):
 
 def payments_specific_period(request):
     pass
+
+def reports(request):
+    return render(request , "report.html" , {'report' : reports , 'title' : 'Reports'} )
+
+def periodic_repo(request):
+    return render(request , "report/periodic_repo.html" , {'periodic_repo' : periodic_repo , 'title' : 'periodic repo'} )
