@@ -55,7 +55,7 @@ class Reservation(models.Model):
     return_date = models.DateTimeField(null=True)
     customer = models.ForeignKey(Customer, related_name='reservations', on_delete=models.RESTRICT)
     car = models.ForeignKey(Car, related_name='reservations', on_delete=models.SET_NULL, null=True)
-    payment = models.ForeignKey(Payment, related_name='reservation', on_delete=models.RESTRICT, null=True, unique=True)
+    payment = models.OneToOneField(Payment, related_name='reservation', on_delete=models.RESTRICT, null=True)
 
     def __str__(self):
         return self.id

@@ -4,20 +4,28 @@
     <thead>
         <tr>
             <th scope="col">Id</th>
-            <th scope="col">Name</th>
+            <th scope="col">Last login</th>
+            <th scope="col">Is admin</th>
+            <th scope="col">Username</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Date joined</th>
         </tr>
     </thead>
     <tbody>
         {% for customer in customers %}
             <tr>
-                <td>
-                    {% comment %} <a href="{% url 'customers:detail' customer.id %}">{{ customer.id }}</a> {% endcomment %}
-                    <a href="#">{{ customer.personal_id }}</a>
-                </td>
-                <td>{{ customer.name }}</td>
+                <td>{{ customer.id }}</td>
+                <td>{{ customer.last_login }}</td>
+                <td>{{ customer.is_superuser }}</td>
+                <td>{{ customer.username }}</td>
+                <td>{{ customer.first_name }}</td>
+                <td>{{ customer.last_name }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.date_joined }}</td>
             </tr>
         {% endfor %}
-
     </tbody>
 </table>
 {% endblock %}
