@@ -88,3 +88,8 @@ def add_car(request):
         )
         data.save()
     return redirect(cars)
+
+
+def details(request, plate_id):
+    car = Car.objects.get(pk=plate_id)
+    return render(request, "car_details.html", {'car': car, 'title': 'Car details'})

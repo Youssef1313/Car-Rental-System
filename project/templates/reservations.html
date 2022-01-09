@@ -23,7 +23,7 @@
                 {% if reservation.car is None %}
                 <td>None</td>
                 {% else %}
-                    <td>{{ reservation.car.plate_id }}</td>
+                    <td><a href="{% url 'car_details' plate_id=reservation.car.plate_id %}">{{ reservation.car.plate_id }}</a></td>
                 {% endif %}
                 {% if reservation.payment is None %}
                     <td>None</td>

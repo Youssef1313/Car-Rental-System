@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Car details</h1>
+
+<ul class="list-group">
+    <li class="list-group-item list-group-item-dark">Plate id: {{ car.plate_id }}</li>
+    <li class="list-group-item list-group-item-dark">Model: {{ car.model }}</li>
+    <li class="list-group-item list-group-item-dark">Color: {{ car.color }}</li>
+    <li class="list-group-item list-group-item-dark">Year: {{ car.year }}</li>
+    <li class="list-group-item list-group-item-dark">Reserved? {{ car.is_reserved }}</li>
+    <li class="list-group-item list-group-item-dark">Office id: {{ car.belong_office.id }}</li>
+    <li class="list-group-item list-group-item-dark">Office name: {{ car.belong_office.office_name }}</li>
+    <li class="list-group-item list-group-item-dark">Office location: {{ car.belong_office.office_location }}</li>
+    <li class="list-group-item list-group-item-dark">Status: {{ car.status.name }}</li>
+</ul>
+{% endblock %}

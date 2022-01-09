@@ -16,13 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
-from company.views import auth_views, car_views, reservation_views
+from company.views import auth_views, car_views, customer_views, reservation_views
 
 
 urlpatterns = [
     path('', views.home, name="home"),
     path('admin/', admin.site.urls, name="admin"),
-    path('customers/', reservation_views.customers, name="customers"),
+    path('customers/', customer_views.customers, name="customers"),
     path('cars/', car_views.cars, name="cars"),
     path('reservations/', reservation_views.reservations, name="reservations"),
     # path('api/cars/', app_view.post_get),
@@ -33,4 +33,5 @@ urlpatterns = [
     path('reserve/', car_views.reserve_car, name="reserve_car"),
     path('cars/edit/<int:plate_id>', car_views.edit_car, name="edit_car"),
     path("cars/add/", car_views.add_car, name="add_car"),
+    path("cars/details/<int:plate_id>", car_views.details, name="car_details"),
 ]
