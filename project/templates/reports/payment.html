@@ -33,7 +33,7 @@
         {% for payment in payments %}
         <tr>
             <td>{{ payment.payment_date_only }}</td>
-            <td>{{ payment.payment_amount }}</td>
+            <td>{{ payment.total_payment_amount }}</td>
         </tr>
         {% endfor %}
     </tbody>
