@@ -3,22 +3,35 @@
 <h1>Reservations</h1>
 
 <form class="form-inline md-form mr-auto mb-4">
-    <div class="card bg-dark text-white">
-        <input class="form-control mr-sm-2" type="search" placeholder="Car Plate ID" aria-label="Search"
-            name="search_plate_id">
-    </div>
-    {% if request.user.is_superuser %}
-    <div class="card bg-dark text-white">
-        <input class="form-control mr-sm-2" type="search" placeholder="Customer ID" aria-label="Search"
-            name="search_customer_id">
-    </div>
-    {% endif %}
+
+
     <div class="card bg-dark text-white">
         <input class="form-control mr-sm-2" type="date" placeholder="Search Rental Date" aria-label="Search"
             name="search_rental_date">
     </div>
     <button class="btn btn-primary blue-gradient  btn-rounded btn-sm my-2" type="submit">Search</button>
 </form>
+
+<div>
+    <form class="form-inline md-form mr-auto mb-4">
+        <div class="form-group">
+            <label for="search_plate_id">Car plate id</label>
+            <input class="form-control mr-sm-2 bg-dark text-white" type="search" name="search_plate_id" id="search_plate_id">
+        </div>
+        {% if request.user.is_superuser %}
+        <div class="form-group">
+            <label for="search_customer_id">Customer id</label>
+            <input class="form-control mr-sm-2 bg-dark text-white" type="search" name="search_customer_id" id="search_customer_id">
+        </div>
+        {% endif %}
+        <div class="form-group">
+            <label for="search_rental_date">Rental date</label>
+            <input class="form-control mr-sm-2 bg-dark text-white" type="search" name="search_rental_date" id="search_rental_date">
+        </div>
+
+        <button class="btn btn-primary blue-gradient btn-rounded m-2" type="submit">Search</button>
+    </form>
+</div>
 
 <table class="table table-dark table-striped">
     <thead>
