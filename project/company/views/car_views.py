@@ -1,8 +1,10 @@
+import datetime
 from django.contrib import messages
+from django.db import transaction
 from django.db.models import Q
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import redirect, render
-from ..models import Car, CarStatus, Office
+from ..models import Car, CarStatus, CarStatusChangeLog, Office
 
 
 def cars(request):
@@ -42,12 +44,21 @@ def edit_car(request, plate_id):
         car_statuses = CarStatus.objects.all()
         return render(request, "cars/edit_car.html", {'car': car, 'title': 'Edit car', 'car_statuses': car_statuses})
     elif request.method == "POST":
-        car.model = request.POST.get('model')
-        car.color = request.POST.get('color')
-        car.year = request.POST.get('year')
-        car.status = CarStatus(id=request.POST.get('car_status'))
-        car.save()
-        return redirect(cars)
+        with transaction.atomic():
+            old_status_id = car.status.id
+            new_status = CarStatus(id=request.POST.get('car_status'))
+            car.model = request.POST.get('model')
+            car.color = request.POST.get('color')
+            car.year = request.POST.get('year')
+            car.status = new_status
+            car.save()
+            if old_status_id != new_status.id:
+                change_log = CarStatusChangeLog()
+                change_log.day = datetime.now()
+                change_log.car = car.plate_id
+                change_log.new_status = new_status
+                change_log.save()
+            return redirect(cars)
 
 
 def add_car(request):
@@ -68,22 +79,27 @@ def add_car(request):
         status = CarStatus.objects.get(pk=request.POST['status'])
         belong_office = Office.objects.get(pk=request.POST['office'])
         existing_car = Car.objects.filter(pk=plate_id).first()
-        new_car = Car(
-            plate_id = plate_id,
-            model = model,
-            color = color,
-            year = year,
-            status = status,
-            belong_office = belong_office,
-        )
+        with transaction.atomic():
+            new_car = Car(
+                plate_id = plate_id,
+                model = model,
+                color = color,
+                year = year,
+                status = status,
+                belong_office = belong_office,
+            )
 
-        if existing_car is not None:
-            messages.success(request, "A car with this plate id already exists")
-            car_statuses = CarStatus.objects.all()
-            offices = Office.objects.all()
-            return render(request, "cars/add_car.html", {'title' : 'Add Car', 'car_statuses': car_statuses, 'offices': offices, 'car': new_car})
-
-        new_car.save()
+            if existing_car is not None:
+                messages.success(request, "A car with this plate id already exists")
+                car_statuses = CarStatus.objects.all()
+                offices = Office.objects.all()
+                return render(request, "cars/add_car.html", {'title' : 'Add Car', 'car_statuses': car_statuses, 'offices': offices, 'car': new_car})
+            change_log = CarStatusChangeLog()
+            change_log.day = datetime.now()
+            change_log.car = plate_id
+            change_log.new_status = status
+            change_log.save()
+            new_car.save()
     return redirect(cars)
 
 

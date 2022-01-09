@@ -59,3 +59,8 @@ class Reservation(models.Model):
 
     def __str__(self):
         return self.id
+
+class CarStatusChangeLog(models.Model):
+    car = models.ForeignKey(Car, related_name="statuses", on_delete=models.CASCADE)
+    day = models.DateField()
+    new_status = models.ForeignKey(CarStatus, on_delete=models.RESTRICT)

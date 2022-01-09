@@ -14,15 +14,14 @@
             <a href="{% url 'cars_periodic_repo' %}" class="btn btn-primary m-2">Show all reservations of any car within a specified period</a>
 
             {% comment %}  the status of all cars on a specific day. {% endcomment %}
-            <a href="#" class="btn btn-primary m-2">Show status of all cars on a specific day</a>
+            <a href="{% url 'status' %}" class="btn btn-primary m-2">Show status of all cars on a specific day</a>
 
             {% comment %} all reservations of specific customer including customer information, car model and plate id. {% endcomment %}
-            <a href="#" class="btn btn-primary m-2">Show all reservations of specific customer</a>
+            <a href="{% url 'customer_reservation' %}" class="btn btn-primary m-2">Show all reservations of specific customer</a>
 
             {% comment %} daily payments within specific period. {% endcomment %}
-            <a href="#" class="btn btn-primary m-2">Show daily payments within a specific period</a>
+            <a href="{% url 'payment' %}" class="btn btn-primary m-2">Show daily payments within a specific period</a>
         </tr>
     </table>
 </div>
-
 {% endblock %}
