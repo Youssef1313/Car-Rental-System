@@ -11,6 +11,7 @@ from ..models import Customer, Reservation, CarStatusConstants, Car, Payment
 from django.db.models.functions import TruncMonth
 from django.db.models.functions import Cast
 
+
 def specific_customer_reserve(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
@@ -46,11 +47,29 @@ def reservations_within_a_period(request):
     if not request.user.is_authenticated or not request.user.is_superuser:
         return HttpResponseForbidden()
 
-    from_date = datetime.fromisoformat(request.GET['from_date'])
-    to_date = datetime.fromisoformat(request.GET['to_date'])
-    reservations = Reservation.objects.filter(
-        rental_date__gte=from_date,
-        rental_date__lt=to_date + timedelta(days=1)
-    )
+    if 'from_date' in request.GET:
+        from_date = datetime.fromisoformat(request.GET['from_date'])
+        to_date = datetime.fromisoformat(request.GET['to_date'])
+        reservations = Reservation.objects.filter(
+            rental_date__gte=from_date,
+            rental_date__lt=to_date + timedelta(days=1)
+        )
+    else:
+        reservations = None
 
     return render(request , "reports/reservations_within_a_period.html" , {'title' : 'Customer reservations in a given period', 'reservations': reservations})
+
+def car_reservations_with_a_period(request):
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        return HttpResponseForbidden()
+
+    if "from_date" in request.GET:
+        from_date = datetime.fromisoformat(request.GET['from_date'])
+        to_date = datetime.fromisoformat(request.GET['to_date'])
+        car_reservations = Reservation.objects.filter(
+            rental_date__gte = from_date,
+            rental_date__lt = to_date + timedelta(days=1)
+            )
+    else:
+        car_reservations = None
+    return render(request, 'reports/car_reservations_report.html', {'title' : 'Cars Reservations in a given period' , 'reservations': car_reservations})
