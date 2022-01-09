@@ -26,4 +26,4 @@ def customers(request):
         customers = Customer.objects.filter(mult_search)
     else:
         customers = Customer.objects.all()
-    return render(request, "customers.html", {"customers": customers, "title": "Customers"})
+    return render(request, "customers.html", {"customers": customers, "title": "customers"})
