@@ -26,12 +26,28 @@
 
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>
-            <input type="text" class="form-control" id="status" name="status" value="{{ car.status }}">
+            <select id="status" name="status" class="form-select form-control">
+                {% for car_status in car_statuses %}
+                    {% if car_status.id == car.status.id %}
+                        <option value="{{ car_status.id }}" selected>{{ car_status.name }}</option>
+                    {% else %}
+                        <option value="{{ car_status.id }}">{{ car_status.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
         </div>
 
         <div class="mb-3">
-            <label for="belong_office" class="form-label">Office</label>
-            <input type="text" class="form-control" id="belong_office" name="belong_office" value="{{ car.belong_office }}">
+            <label for="office" class="form-label">Office</label>
+            <select id="office" name="office" class="form-select form-control">
+                {% for office in offices %}
+                    {% if office.id == car.belong_office.id %}
+                        <option value="{{ office.id }}" selected>{{ office.office_name }}</option>
+                    {% else %}
+                    <option value="{{ office.id }}">{{ office.office_name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary">Save</button>
