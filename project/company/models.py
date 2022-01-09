@@ -61,6 +61,6 @@ class Reservation(models.Model):
         return self.id
 
 class CarStatusChangeLog(models.Model):
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    car = models.ForeignKey(Car, related_name="statuses", on_delete=models.CASCADE)
     day = models.DateField()
     new_status = models.ForeignKey(CarStatus, on_delete=models.RESTRICT)
