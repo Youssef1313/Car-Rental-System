@@ -26,7 +26,6 @@ def payments_specific_period(request):
         start_date = datetime.fromisoformat(request.GET['start_date'])
         end_date = datetime.fromisoformat(request.GET['end_date']) + timedelta(days=1)
         payments =  Payment.objects.filter(payment_date__gte=start_date, payment_date__lt=end_date).annotate(payment_date_only = Cast('payment_date', output_field=DateField())).values('payment_date_only').annotate(total_payment_amount=Sum('payment_amount'))
-        print(payments.query)
 
     return render(request, "reports/payment.html", {"payments": payments, "title": "Payment"})
 
