@@ -55,8 +55,8 @@ urlpatterns = [
     path('reserve/', reservation_views.reserve_car, name="reserve_car"),
     
     #Reports
-    path('report/customer_reservation.html', report_views.specific_customer_reserve, name="customer_reservation"),
-    path('report/payment.html', report_views.payments_specific_period, name="payment"),
+    path('report/customer_reservation', report_views.specific_customer_reserve, name="customer_reservation"),
+    path('report/payment', report_views.payments_specific_period, name="payment"),
 
 
 ]
