@@ -73,13 +73,14 @@ def status_report(request):
     if not request.user.is_authenticated or not request.user.is_superuser:
         return HttpResponseForbidden()
 
-    cars = None
+    changelogs = None
     if "search_status_date" in request.GET:
-        date = datetime.fromisoformat(request.GET['search_status_date'])
+        date = request.GET['search_status_date']
         # SELECT * FROM Status S, Cars C WHERE day < ... 
         #status = CarStatusChangeLog.objects.filter(day__lte = date).values('car').annotate(max_day=Max('day'))
         #cars = Car.objects.filter(statuses__day__lte = date).values('plate_id').annotate(max_day=Max(('statuses__day'))).values('plate_id', 'statuses__id','max_day')
-        changelogs = CarStatusChangeLog.objects.raw("SELECT `company_carstatuschangelog`.`id`, `company_carstatuschangelog`.`day`, `company_carstatuschangelog`.`car_id`, `company_carstatus`.`name` FROM `company_carstatuschangelog`, `company_carstatus` WHERE `company_carstatus`.`id` = `company_carstatuschangelog`.`new_status_id`AND `company_carstatuschangelog`.`day` IN(SELECT MAX(`company_carstatuschangelog`.`day`) FROM `company_carstatuschangelog` WHERE `company_carstatuschangelog`.`day` <= '2022-01-12' GROUP BY `company_carstatuschangelog`.`car_id` );")
+        # SQL INJECTION :( :(
+        changelogs = CarStatusChangeLog.objects.raw(f"SELECT `company_carstatuschangelog`.`id`, `company_carstatuschangelog`.`day`, `company_carstatuschangelog`.`car_id`, `company_carstatus`.`name` FROM `company_carstatuschangelog`, `company_carstatus` WHERE `company_carstatus`.`id` = `company_carstatuschangelog`.`new_status_id`AND `company_carstatuschangelog`.`day` IN(SELECT MAX(`company_carstatuschangelog`.`day`) FROM `company_carstatuschangelog` WHERE `company_carstatuschangelog`.`day` <= '{date}' GROUP BY `company_carstatuschangelog`.`car_id` );")
     return render(request, 'reports/status.html',{'changelogs': changelogs, 'title':'Report'})
 
 # SELECT `carstatuschangelog`.`id`, `carstatuschangelog`.`car_id`, `carstatuschangelog`.`day`, `carstatuschangelog`.`new_status_id`,
