@@ -5,11 +5,14 @@ from ..models import Office
 
 
 def offices(request):
-    if 'value' in request.GET:
-        val = request.GET['value']
-        mult_search = Q(Q(id__icontains=val)|
-                         Q(office_name__icontains=val)|
-                         Q(office_location__icontains=val))
+    if 'search_id' in request.GET:
+        search_id = request.GET['search_id']
+        search_name = request.GET['search_name']
+        search_location = request.GET['search_location']
+
+        mult_search = Q(Q(id__icontains = search_id)&
+                         Q(office_name__icontains = search_name)&
+                         Q(office_location__icontains = search_location))
         
         offices = Office.objects.filter(mult_search)
     else:

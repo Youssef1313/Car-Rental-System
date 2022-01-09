@@ -9,10 +9,12 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="Car Plate ID" aria-label="Search"
                     name="search_plate_id">
             </div>
+            {% if request.user.is_superuser %}
             <div class="card bg-dark text-white">
                 <input class="form-control mr-sm-2" type="search" placeholder="Customer ID" aria-label="Search"
                     name="search_customer_id">
             </div>
+            {% endif %}
             <div class="card bg-dark text-white">
                 <input class="form-control mr-sm-2" type="date" placeholder="Search Rental Date" aria-label="Search"
                     name="search_rental_date">

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.contrib import messages
 from django.db import transaction
 from django.db.models import Q
@@ -10,23 +10,43 @@ from ..models import Reservation, CarStatusConstants, Car, Payment
 
 def reservations(request):
     if not request.user.is_authenticated:
-        return HttpResponseForbidden()
-
-    if 'search_plate_id' in request.GET:
-        search_plate_id = request.GET['search_plate_id']
-        search_customer_id = request.GET['search_customer_id']
-        search_rental_date = request.GET['search_rental_date']
-        print(request.GET)
-        print(search_rental_date)  
-        print()      
-        mult_search = Q(Q(customer__id__icontains=search_customer_id)&
-                         Q(car__plate_id__icontains=search_plate_id)&
-                         Q(rental_date__lte=search_rental_date))
+        return redirect("login")        
         
-        reservations = Reservation.objects.filter(mult_search)
+    if request.user.is_superuser:
+        if 'search_rental_date' in request.GET:
+            search_plate_id = request.GET['search_plate_id']
+            search_customer_id = request.GET['search_customer_id']
+            search_rental_date = request.GET['search_rental_date']
+            print(request.GET)
+            print(search_rental_date)  
+            print()      
+            mult_search = Q(Q(customer__id__icontains=search_customer_id)&
+                             Q(car__plate_id__icontains=search_plate_id))
+            if search_rental_date != '':
+                mult_search = mult_search & Q(rental_date__lt=datetime.fromisoformat(search_rental_date) + timedelta(days=1))
+                          
+            reservations = Reservation.objects.filter(mult_search)
+            print(reservations.query)
+        else:
+            reservations = Reservation.objects.all()
+        
     else:
-        reservations = Reservation.objects.all()
+        if 'search_rental_date' in request.GET:
+            search_plate_id = request.GET['search_plate_id']
+            search_rental_date = request.GET['search_rental_date']
+            print(request.GET)
+            print(search_rental_date)  
+            print()      
+            mult_search = Q(car__plate_id__icontains=search_plate_id)
+            if search_rental_date != '':
+                mult_search = mult_search & Q(rental_date__lt=datetime.fromisoformat(search_rental_date) + timedelta(days=1))
+            
+            reservations = request.user.reservations.filter(mult_search)
+        else:
+            reservations = request.user.reservations.all()
+
     return render(request, "reservations/reservations.html", {"reservations": reservations, "title": "Reservations"})
+
 
 
 def reserve_car(request):
