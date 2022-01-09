@@ -79,9 +79,9 @@ def status_report(request):
         date = datetime.fromisoformat(request.GET['search_status_date'])
         # SELECT * FROM Status S, Cars C WHERE day < ... 
         #status = CarStatusChangeLog.objects.filter(day__lte = date).values('car').annotate(max_day=Max('day'))
-        cars = Car.objects.filter(statuses__day__lte = date).values('plate_id').annotate(max_day=Max(('statuses__day'))).values('plate_id', 'statuses__id','max_day')
+        cars = Car.objects.all().filter(statuses__day__lte = date).values('plate_id').annotate(max_day=Max(('statuses__day'))).values('plate_id', 'status__name','max_day')
         print(cars.query)
-    return render(request, 'reports/status.html',{'cars':cars, 'title':'Cars'})
+    return render(request, 'reports/status.html',{'cars':cars, 'title':'Report'})
 
 # SELECT `carstatuschangelog`.`id`, `carstatuschangelog`.`car_id`, `carstatuschangelog`.`day`, `carstatuschangelog`.`new_status_id`,
 #           MAX(`company_carstatuschangelog`.`day`) AS `max_day`

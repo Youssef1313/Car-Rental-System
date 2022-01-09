@@ -24,8 +24,8 @@
             {% for car in cars %}
             <tr>
                 <td>{{ car.plate_id }}</td>
-                <td>{{ car.day }}</td>
-                <td>{{ car.status.name }}</td>
+                <td>{{ car.max_day }}</td>
+                <td>{{ car.status__name}}</td>
             </tr>
             {% endfor %}
         </tbody>
