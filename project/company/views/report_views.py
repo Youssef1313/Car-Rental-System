@@ -1,34 +1,31 @@
 from datetime import datetime, timedelta
 from django.db.models import Sum
-from django.http.response import HttpResponseForbidden
-from django.shortcuts import redirect, render
-
-from company.views.reservation_views import reservations
+from django.db.models.fields import DateField
+from django.http.response import  HttpResponseForbidden
+from django.shortcuts import render
 from ..models import Reservation, Payment
+from django.db.models.functions import Cast
 
 
 def specific_customer_reserve(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
         
+    reservations = None
     if 'customer_id' in request.GET:
         customer_id = request.GET['customer_id']
         reservations = Reservation.objects.filter(customer__id = customer_id)
-    else:
-        reservations = None
 
     return render(request, "reports/customer_reservation.html", {"reservations":reservations, "title":"Customer reservation"})
 
 def payments_specific_period(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
-
+    payments = None
     if 'start_date' in request.GET:
         start_date = datetime.fromisoformat(request.GET['start_date'])
-        end_date = datetime.fromisoformat(request.GET['end_date'])
-        payments =  Payment.objects.filter(payment_date__range=(start_date, end_date)).values("payment_date").annotate(Sum('payment_amount'))
-    else:
-        payments = None
+        end_date = datetime.fromisoformat(request.GET['end_date']) + timedelta(days=1)
+        payments =  Payment.objects.filter(payment_date__gte=start_date, payment_date__lt=end_date).annotate(payment_date_only = Cast('payment_date', output_field=DateField())).values('payment_date_only').annotate(total_payment_amount=Sum('payment_amount'))
 
     return render(request, "reports/payment.html", {"payments": payments, "title": "Payment"})
 
