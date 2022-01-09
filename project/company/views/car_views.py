@@ -13,8 +13,6 @@ def cars(request):
         search_year = request.GET['search_year']
         search_office_name = request.GET['search_office_name']
         search_office_location = request.GET['search_office_location']
-
-        is_reserved = request.GET['search_is_reserved'] == '' or request.GET['search_is_reserved'] == 'true'
         mult_search = Q(Q(plate_id__icontains=search_plate_id) &
                         Q(model__icontains=search_model) &
                         Q(color__icontains=search_color) &
@@ -23,7 +21,7 @@ def cars(request):
                         Q(belong_office__office_location__icontains=search_office_location))
 
         if request.GET['search_is_reserved'] != '':
-            mult_search = mult_search & Q(is_reserved=is_reserved)
+            mult_search = mult_search & Q(is_reserved=request.GET['search_is_reserved'] == 'true')
 
         if request.GET['car_status'] != '':
             mult_search = mult_search & Q(status__id=request.GET['car_status'])
