@@ -99,6 +99,9 @@ def return_reservation(request):
 
     reservation.return_date = datetime.now()
     reservation.save()
+    car = reservation.car
+    car.is_reserved = False
+    car.save()
     return redirect(details, reservation_id=reservation.id)
 
 
