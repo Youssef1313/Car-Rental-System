@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from django.contrib import messages
 from django.db import transaction
 from django.db.models import Q
@@ -55,7 +55,7 @@ def edit_car(request, plate_id):
             if old_status_id != new_status.id:
                 change_log = CarStatusChangeLog()
                 change_log.day = datetime.now()
-                change_log.car = car.plate_id
+                change_log.car_id = car.plate_id
                 change_log.new_status = new_status
                 change_log.save()
             return redirect(cars)
@@ -96,10 +96,10 @@ def add_car(request):
                 return render(request, "cars/add_car.html", {'title' : 'Add Car', 'car_statuses': car_statuses, 'offices': offices, 'car': new_car})
             change_log = CarStatusChangeLog()
             change_log.day = datetime.now()
-            change_log.car = plate_id
+            change_log.car_id = plate_id
             change_log.new_status = status
-            change_log.save()
             new_car.save()
+            change_log.save()
     return redirect(cars)
 
 
