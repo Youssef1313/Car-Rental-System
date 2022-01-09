@@ -4,7 +4,7 @@ from django.db import transaction
 from django.db.models import Q
 from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render
-from ..models import Reservation, CarStatusConstants, Car
+from ..models import Reservation, CarStatusConstants, Car, Payment
 
 
 # TODO: This view is not yet used..
@@ -80,7 +80,7 @@ def pickup_reservation(request):
 
     reservation.pickup_date = datetime.now()
     reservation.save()
-    return redirect('reservations')
+    return redirect(details, reservation_id=reservation.id)
 
 
 def return_reservation(request):
@@ -95,4 +95,28 @@ def return_reservation(request):
 
     reservation.return_date = datetime.now()
     reservation.save()
-    return redirect('reservations')
+    return redirect(details, reservation_id=reservation.id)
+
+
+def make_payment(request, reservation_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not request.user.is_superuser:
+        return HttpResponseForbidden()
+
+    reservation = Reservation.objects.get(pk=reservation_id)
+    if reservation.payment is not None:
+        return HttpResponseBadRequest()
+
+    if request.method == "GET":
+        return render(request, "reservations/make_payment.html", {"reservation": reservation})
+    elif request.method == "POST":
+        payment_amount = request.POST["payment_amount"]
+        payment = Payment(
+            payment_date=datetime.now(),
+            payment_amount=payment_amount,
+        )
+        reservation.payment = payment
+        payment.save()
+        reservation.save()
+        return redirect(details, reservation_id=reservation_id)
