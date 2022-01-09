@@ -4,16 +4,11 @@ from django.shortcuts import render
 from ..models import Customer
 
 
-def advanced_search(request):
-    if not request.user.is_authenticated or not request.user.is_superuser:
-        return HttpResponseForbidden()
-    pass
 
 def customers(request):
     if not request.user.is_authenticated or not request.user.is_superuser:
         return HttpResponseForbidden()
 
-    print(request.GET)
     if 'search_id' in request.GET:
         search_id = request.GET['search_id']
         search_username = request.GET['search_username']
