@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Customer Reservation</h1>
+
+    <div>
+        <form class="form-inline md-form mr-auto mb-4">
+            <div class="card bg-dark text-white">
+                <input class="form-control mr-sm-2" type="date" placeholder="Search Customer ID" aria-label="Search"
+                    name="search_status_date">
+            </div>
+            <button class="btn btn-primary blue-gradient  btn-rounded btn-sm my-2" type="submit">Search</button>
+        </form>
+    </div>
+
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Plate Id</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for car in cars %}
+            <tr>
+                <td>{{ car.plate_id }}</td>
+                <td>{{ state.day }}</td>
+                <td>{{ state.new_status.name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+  {% endblock %}
