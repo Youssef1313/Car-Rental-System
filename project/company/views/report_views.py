@@ -1,14 +1,9 @@
 from datetime import datetime, timedelta
-from typing import cast
-from django.contrib import messages
-from django.db import transaction
-from django.db.models import Q,Sum
-from django.db.models.expressions import OuterRef
+from django.db.models import Sum
 from django.db.models.fields import DateField
-from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
-from django.shortcuts import redirect, render
-from ..models import Customer, Reservation, CarStatusConstants, Car, Payment
-from django.db.models.functions import TruncMonth
+from django.http.response import  HttpResponseForbidden
+from django.shortcuts import render
+from ..models import Reservation, Payment
 from django.db.models.functions import Cast
 
 
