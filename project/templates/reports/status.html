@@ -21,11 +21,11 @@
             </tr>
         </thead>
         <tbody>
-            {% for car in cars %}
+            {% for changelog in changelogs %}
             <tr>
-                <td>{{ car.plate_id }}</td>
-                <td>{{ car.max_day }}</td>
-                <td>{{ car.status__name}}</td>
+                <td>{{ changelog.car_id }}</td>
+                <td>{{ changelog.day }}</td>
+                <td>{{ changelog.name }}</td>
             </tr>
             {% endfor %}
         </tbody>
