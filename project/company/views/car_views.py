@@ -15,6 +15,26 @@ def cars(request):
                          Q(belong_office__office_location__icontains=val))
         
         cars = Car.objects.filter(mult_search)
+    elif 'search_plate_id' in request.GET:
+        print(request.GET)
+        search_plate_id = request.GET['search_plate_id']
+        search_model = request.GET['search_model']
+        search_color = request.GET['search_color']
+        search_year = request.GET['search_year']
+        search_office_name = request.GET['search_office_name']
+        search_office_location = request.GET['search_office_location']
+        print(search_color)
+        print(search_model)
+        print(search_plate_id)
+        print(search_year)
+
+        mult_search = Q(Q(plate_id__icontains=search_plate_id)&
+                        Q(model__icontains=search_model)&
+                        Q(color__icontains=search_color)&
+                        Q(year__icontains=search_year)&
+                        Q(belong_office__office_name=search_office_name)&
+                        Q(belong_office__office_location__icontains=search_office_location))
+        cars = Car.objects.filter(mult_search)
     else:
         cars = Car.objects.all()
     return render(request, "cars/cars.html", {"cars": cars, "title": "Cars"})
