@@ -12,23 +12,24 @@ def specific_customer_reserve(request):
         
     if 'customer_id' in request.GET:
         customer_id = request.GET['customer_id']
-        reservation = Reservation.objects.filter(customer__id = customer_id)
+        reservations = Reservation.objects.filter(customer__id = customer_id)
     else:
-        reservation = Reservation.objects.none()
+        reservations = None
 
-    return render(request, "report/customer_reservation.html", {{reservation:"reservations", "title":"Customer reservation"}})
+    return render(request, "reports/customer_reservation.html", {"reservations":reservations, "title":"Customer reservation"})
 
 def payments_specific_period(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
 
     if 'start_date' in request.GET:
-        start_date = datetime.date(request.GET['start_date'])
-        end_date = datetime.date(request.GET['end_date'])
+        start_date = datetime.fromisoformat(request.GET['start_date'])
+        end_date = datetime.fromisoformat(request.GET['end_date'])
         payments =  Payment.objects.filter(payment_date__range=(start_date, end_date)).values("payment_date").annotate(Sum('payment_amount'))
     else:
-        payments = Payment.objects.none()
-    return render(request, "report/payment.html", {payments:"payments", "title":"Payment"})
+        payments = None
+
+    return render(request, "reports/payment.html", {"payments": payments, "title": "Payment"})
 
 
 def reports(request):
