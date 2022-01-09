@@ -58,7 +58,7 @@ def add_car(request):
     if request.method == "GET":
         car_statuses = CarStatus.objects.all()
         offices = Office.objects.all()
-        return render(request,"cars/add_car.html", {'title' : 'Add Car', 'car_statuses': car_statuses, 'offices': offices})
+        return render(request, "cars/add_car.html", {'title' : 'Add Car', 'car_statuses': car_statuses, 'offices': offices})
 
     elif request.method == "POST":
         plate_id = request.POST['plate_id']
@@ -79,7 +79,9 @@ def add_car(request):
 
         if existing_car is not None:
             messages.success(request, "A car with this plate id already exists")
-            return redirect(add_car, {'car': new_car})
+            car_statuses = CarStatus.objects.all()
+            offices = Office.objects.all()
+            return render(request, "cars/add_car.html", {'title' : 'Add Car', 'car_statuses': car_statuses, 'offices': offices, 'car': new_car})
 
         new_car.save()
     return redirect(cars)
