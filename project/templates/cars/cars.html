@@ -17,7 +17,6 @@
 </script>
 <h1>Cars</h1>
 
-{% if request.user.is_superuser %}
 <div>
     <form class="form-inline md-form mr-auto mb-4">
         <div class="card bg-dark text-white">
@@ -48,16 +47,6 @@
         <button class="btn btn-primary blue-gradient  btn-rounded btn-sm my-2" type="submit">Search</button>
     </form>
 </div>
-{% else %}
-<div class="card bg-dark text-white">
-	<form class="form-inline md-form mr-auto mb-4">
-		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="value">
-		<button class="btn btn-primary blue-gradient  btn-rounded btn-sm my-2" type="submit">Search</button>
-	</form>
-</div>
-
-{% endif%}
-
 
 <div>
     {% if request.user.is_superuser %}

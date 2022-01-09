@@ -5,17 +5,7 @@ from ..models import Car, CarStatus, Office, Reservation
 
 
 def cars(request):
-    if 'value' in request.GET:
-        val = request.GET['value']
-        mult_search = Q(Q(plate_id__icontains=val)|
-                         Q(model__icontains=val)|
-                         Q(color__icontains=val)|
-                         Q(year__icontains=val)|
-                         Q(belong_office__office_name__icontains=val)|
-                         Q(belong_office__office_location__icontains=val))
-        
-        cars = Car.objects.filter(mult_search)
-    elif 'search_plate_id' in request.GET:
+    if 'search_plate_id' in request.GET:
         search_plate_id = request.GET['search_plate_id']
         search_model = request.GET['search_model']
         search_color = request.GET['search_color']
