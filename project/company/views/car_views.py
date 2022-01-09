@@ -17,7 +17,7 @@ def cars(request):
         cars = Car.objects.filter(mult_search)
     else:
         cars = Car.objects.all()
-    return render(request, "cars.html", {"cars": cars, "title": "Cars"})
+    return render(request, "cars/cars.html", {"cars": cars, "title": "Cars"})
 
 
 def edit_car(request, plate_id):
@@ -26,7 +26,7 @@ def edit_car(request, plate_id):
 
     car = Car.objects.get(pk=plate_id)
     if request.method == "GET":
-        return render(request, "edit_car.html", {'car': car, 'title': 'Edit car'})
+        return render(request, "cars/edit_car.html", {'car': car, 'title': 'Edit car'})
     elif request.method == "POST":
         car.model = request.POST.get('model')
         car.color = request.POST.get('color')
@@ -40,7 +40,7 @@ def add_car(request):
         return HttpResponseForbidden()
 
     if request.method == "GET":
-        return render(request,"add_car.html",{'title' : 'Add Car'})
+        return render(request,"cars/add_car.html",{'title' : 'Add Car'})
 
     elif request.method == "POST":
         plate_id = request.POST['plate_id']
@@ -68,4 +68,4 @@ def add_car(request):
 
 def details(request, plate_id):
     car = Car.objects.get(pk=plate_id)
-    return render(request, "car_details.html", {'car': car, 'title': 'Car details'})
+    return render(request, "cars/car_details.html", {'car': car, 'title': 'Car details'})
