@@ -31,7 +31,7 @@
         </form>
     {% endif %}
     {% if reservation.payment is None %}
-        <a href="#" class="btn btn-primary m-2" role="button">Make payment for this reservation</a>
+        <a href="{% url 'make_payment' reservation_id=reservation.id %}" class="btn btn-primary m-2" role="button">Make payment for this reservation</a>
     {% endif %}
 {% endif %}
 </div>

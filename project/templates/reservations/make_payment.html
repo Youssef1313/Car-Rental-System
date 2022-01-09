@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Making a payment for reservation: {{ reservation.id }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="payment_amount" class="form-label">Payment amount</label>
+            <input type="text" class="form-control" id="payment_amount" name="payment_amount">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Make payment</button>
+
+      </form>
+{% endblock %}
