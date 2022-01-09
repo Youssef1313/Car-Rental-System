@@ -1,10 +1,7 @@
-from datetime import datetime
-from django.contrib import messages
-from django.db import transaction
 from django.db.models import Q
 from django.http.response import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render
-from ..models import Car, CarStatus, CarStatusConstants, Office, Reservation
+from ..models import Car, CarStatus, Office, Reservation
 
 
 def cars(request):
@@ -21,27 +18,6 @@ def cars(request):
     else:
         cars = Car.objects.all()
     return render(request, "cars.html", {"cars": cars, "title": "Cars"})
-
-
-def reserve_car(request):
-    if request.method == "POST":
-        if not request.user.is_authenticated:
-            return redirect('login')
-        plate_id = request.POST.get('plate_id')
-        with transaction.atomic():
-            car = Car.objects.select_for_update().get(pk=plate_id)
-            if car.is_reserved:
-                messages.info(request, 'Sorry, someone else has already reserved this car.')
-                return redirect('cars')
-            if car.status.id != CarStatusConstants.ACTIVE_ID:
-                messages.info(request, f'Sorry, this car is currently {car.status.name}')
-                return redirect('cars')
-
-            reservation = Reservation(rental_date=datetime.now(), customer=request.user, car=car)
-            car.is_reserved = True
-            car.save()
-            reservation.save()
-            return redirect('reservations')
 
 
 def edit_car(request, plate_id):
