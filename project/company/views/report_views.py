@@ -11,7 +11,7 @@ def specific_customer_reserve(request):
         return HttpResponseForbidden()
 
     customer_id = request.GET['customer_id']
-    reservation = Reservation.objects.filter(customer_id__id = customer_id)
+    reservation = Reservation.objects.filter(customer__id = customer_id)
     return render(request, "report/customer_reservation.html", {{reservation:"reservation", "title":"CustomerReservation"}})
 
 def payments_specific_period(request):
