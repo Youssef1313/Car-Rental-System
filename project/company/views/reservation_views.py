@@ -97,11 +97,12 @@ def return_reservation(request):
     if reservation.return_date is not None or reservation.pickup_date is None:
         return HttpResponseBadRequest()
 
-    reservation.return_date = datetime.now()
-    reservation.save()
-    car = reservation.car
-    car.is_reserved = False
-    car.save()
+    with transaction.atomic():
+        reservation.return_date = datetime.now()
+        reservation.save()
+        car = reservation.car
+        car.is_reserved = False
+        car.save()
     return redirect(details, reservation_id=reservation.id)
 
 
