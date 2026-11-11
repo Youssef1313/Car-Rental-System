@@ -14,3 +14,4 @@ Final project for Database Systems course
     ```
 
 4. Run `python manage.py migrate`
+5.you have to go sleep
